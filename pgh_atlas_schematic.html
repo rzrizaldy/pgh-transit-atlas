@@ -369,6 +369,168 @@
         .comment { color: #6c757d; font-style: italic; }
         .function { color: var(--blueprint); font-weight: bold; }
 
+        /* --- ABOUT VIEW LAYOUT --- */
+        #about-view {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+
+        /* ROW 1: CONTEXT GRID */
+        .context-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .log-header {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            border-bottom: var(--border-heavy);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: var(--ink);
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* PHOTO TILES */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .evidence-tile {
+            border: var(--border-heavy);
+            background: white;
+            padding: 10px;
+            transform: rotate(-1deg);
+            transition: transform 0.2s;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .evidence-tile:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        .evidence-tile:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: var(--shadow-deep);
+            z-index: 10;
+        }
+
+        .evidence-placeholder {
+            width: 100%;
+            height: 150px;
+            background: #eee;
+            border-bottom: var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #ccc;
+            overflow: hidden;
+        }
+        
+        .evidence-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .evidence-label {
+            font-family: 'JetBrains Mono';
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            color: var(--safety-orange);
+        }
+
+        /* --- ROW 2: AUTHOR SECTION --- */
+        .author-section {
+            border-top: var(--border-heavy);
+            padding-top: 40px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+        }
+
+        /* AUTHOR SIDEBAR */
+        .author-sidebar {
+            text-align: center;
+        }
+
+        .author-photo {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #ddd;
+            border: var(--border-heavy);
+            margin-bottom: 20px;
+            filter: grayscale(100%);
+            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .author-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .connect-btn {
+            display: block;
+            width: 100%;
+            background: var(--ink);
+            color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            font-family: 'Space Grotesk';
+            font-weight: bold;
+            border: 2px solid transparent;
+            transition: all 0.1s;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .connect-btn:hover {
+            background: var(--safety-orange);
+            transform: translate(-4px, -4px);
+            box-shadow: 6px 6px 0px var(--ink);
+            border: var(--border-heavy);
+            color: var(--ink);
+        }
+
+        /* AUTHOR BIO */
+        .author-bio p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .author-bio strong {
+            color: var(--blueprint);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+            .context-row { grid-template-columns: 1fr; }
+            .author-section { grid-template-columns: 1fr; }
+            .author-photo { width: 200px; margin: 0 auto 20px auto; }
+        }
+
         /* Ticker */
         .ticker-tape {
             position: fixed;
@@ -403,6 +565,7 @@
         <div class="mode-switch">
             <button class="retro-btn active" onclick="toggleMode('viz')">1. INTERACTIVE VIZ</button>
             <button class="retro-btn" onclick="toggleMode('eda')">2. CODE & METHODS</button>
+            <button class="retro-btn" onclick="toggleMode('about')">3. CONTEXT / LOG</button>
         </div>
     </nav>
 
@@ -861,13 +1024,92 @@
                         <strong>Top 10 PRT Stops Near POGOH Stations:</strong><br>
                         <div id="top10-list" style="font-family: 'JetBrains Mono'; font-size: 0.85rem; margin-top: 10px; line-height: 1.8;">
                             Loading...
-                        </div>
+                    </div>
                         <br>
                         <strong>Key Finding:</strong> #1 Node shows proven multimodal success. Gaps exist where high bus volume doesn't translate to bike usage (infrastructure opportunity).
                     </div>
                 </div>
 
+                    </div>
+        </section>
+        <!-- VIEW 3: ABOUT / CONTEXT (NEW) -->
+        <section id="about-view" class="view-section">
+            
+            <!-- ROW 1: FIELD LOG -->
+            <div class="context-row">
+                <!-- COLUMN A: NARRATIVE -->
+                <div style="padding-right: 20px;">
+                    <div class="log-header">// ORIGIN: JAKARTA (CGK) → DESTINATION: PITTSBURGH (PIT)</div>
+                    <p style="line-height: 1.7; margin-bottom: 20px;">
+                        Coming from Jakarta to Pittsburgh (shoutout to CMU for the ride access). In Jakarta my multi-modality was Car + MRT (Park and ride style). But I still spent 45++ minutes in traffic jam on Tol Desari. Moving here introduced a new variable: Micro-mobility in a Winter Climate.
+                    </p>
+                    <p style="line-height: 1.7; margin-bottom: 30px;">
+                        POGOH really helps as an alternative for first mile last mile when I ride the bus. In Jakarta the challenge was traffic volume. Here the challenge is thermal endurance (it is too cold in winter). But the result—avoiding the despair of traffic—is worth it. This project explores that efficiency.
+                    </p>
+
+                    <div class="log-header">// DATA_SOURCES</div>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li>📄 <a href="https://data.wprdc.org/dataset/pogoh-trip-data" target="_blank" style="color:var(--blueprint); text-decoration:none; border-bottom:1px solid var(--blueprint);">POGOH Trip Data (WPRDC)</a></li>
+                        <li>🚌 <a href="https://data.wprdc.org/dataset/port-authority-monthly-average-stop-usage" target="_blank" style="color:var(--blueprint); text-decoration:none; border-bottom:1px solid var(--blueprint);">PRT Transit Data (ArcGIS Hub)</a></li>
+                    </ul>
+                    </div>
+
+                <!-- COLUMN B: PHOTO EVIDENCE -->
+                <div class="photo-grid">
+                    <div class="evidence-tile">
+                        <div class="evidence-placeholder">🚲</div>
+                        <span class="evidence-label">NODE A: POGOH DOCK</span>
+                    </div>
+                    <div class="evidence-tile">
+                        <div class="evidence-placeholder">🚌</div>
+                        <span class="evidence-label">NODE B: PRT BUS 61C</span>
+                    </div>
+                    <div class="evidence-tile">
+                        <div class="evidence-placeholder">🚇</div>
+                        <span class="evidence-label">ORIGIN: MRT JAKARTA</span>
+                </div>
+                    <div class="evidence-tile">
+                        <div class="evidence-placeholder">🚦</div>
+                        <span class="evidence-label">FRICTION: TOL DESARI JAM</span>
+                    </div>
+                    </div>
+                    </div>
+
+            <!-- ROW 2: AUTHOR PROFILE -->
+            <div class="author-section">
+                <!-- SIDEBAR -->
+                <div class="author-sidebar">
+                    <div class="author-photo">
+                        <!-- Placeholder for user photo -->
+                        <div style="font-size: 3rem;">👤</div>
+                    </div>
+                    <a href="https://www.linkedin.com/in/rizaldykautsar/" target="_blank" class="connect-btn">LINKEDIN</a>
+                    <a href="https://github.com/rzrizaldy" target="_blank" class="connect-btn">GITHUB</a>
+                    <a href="https://bukugambar.replit.app/" target="_blank" class="connect-btn" style="background: var(--blueprint);">BUKUGAMBAR.AI</a>
+                </div>
+
+                <!-- BIO TEXT -->
+                <div class="author-bio">
+                    <div class="log-header">// RIZALDY AL KAUTSAR UTOMO</div>
+                    <div style="background: var(--ink); color: white; display: inline-block; padding: 8px 12px; font-family: 'JetBrains Mono', monospace; font-weight: bold; margin-bottom: 25px; font-size: 0.85rem;">
+                        rutomo@andrew.cmu.edu<br>
+                        (Public Policy, Analytics, AI Management @ CMU)
             </div>
+                    
+                    <p><strong>I am on a mission to architect responsible AI solutions for developing markets, ensuring that technology helps people thrive rather than just survive.</strong></p>
+
+                    <p>My professional journey began at the intersection of policy and analytics in Indonesia’s telecommunications sector. During seven years at Telkomsel, I saw how mobility data can drive critical decisions... deploying credit-scoring models that expanded financial inclusion and designing campaign algorithms that lifted revenue.</p>
+
+                    <p>Curiosity carried me from Bandung to Pittsburgh. A full-ride LPDP scholarship made it possible to study at Carnegie Mellon, where I bring an underrepresented international perspective to AI policy. Recognized with the Ganesha Karsa award (ITB).</p>
+
+                    <p>Tinkering is in my DNA. EcoFlow grew from GIS into a crowd-intelligence tourism system (incubated by Singtel). Bukugambar.ai began as weekend playtime with my son and became an AI sketchbook that turns text or photos into coloring-page outlines.</p>
+
+                    <p style="margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px; font-style: italic;">
+                        Seeking Summer 2026 Internship in Analytics or AI Solutions in the US.
+                    </p>
+                </div>
+            </div>
+
         </section>
     </main>
 
@@ -903,21 +1145,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Only populate if sidebar elements exist (removed from current design)
             if(document.getElementById('integration-score')) {
-                const avgIntegration = busStopsData.reduce((sum, stop) => sum + stop.integration_score, 0) / busStopsData.length;
+            const avgIntegration = busStopsData.reduce((sum, stop) => sum + stop.integration_score, 0) / busStopsData.length;
                 const normalizedScore = Math.min(avgIntegration * 100, 10).toFixed(1);
-                document.getElementById('integration-score').textContent = normalizedScore + '/10';
+            document.getElementById('integration-score').textContent = normalizedScore + '/10';
             }
 
             if(document.getElementById('integration-context')) {
-                const topStop = busStopsData.reduce((max, stop) => stop.integration_score > max.integration_score ? stop : max);
-                document.getElementById('integration-context').innerHTML =
-                    `<span style="color:var(--terminal-green)">Top: ${topStop.name}</span><br>High overlap in Downtown, Gaps in outer neighborhoods.`;
+            const topStop = busStopsData.reduce((max, stop) => stop.integration_score > max.integration_score ? stop : max);
+            document.getElementById('integration-context').innerHTML =
+                `<span style="color:var(--terminal-green)">Top: ${topStop.name}</span><br>High overlap in Downtown, Gaps in outer neighborhoods.`;
             }
 
             if(document.getElementById('lastmile-trips')) {
-                const lastMileArch = archetypesData.find(a => a.label === 'Last-Mile');
-                if (lastMileArch) {
-                    document.getElementById('lastmile-trips').textContent = lastMileArch.count.toLocaleString();
+            const lastMileArch = archetypesData.find(a => a.label === 'Last-Mile');
+            if (lastMileArch) {
+                document.getElementById('lastmile-trips').textContent = lastMileArch.count.toLocaleString();
                 }
             }
 
@@ -966,22 +1208,22 @@
 
             // Render Bus Stops
             filteredBusStops.forEach(stop => {
-                L.circleMarker(stop.loc, {
-                    radius: Math.sqrt(stop.vol)/2,
-                    fillColor: '#2B4CFF',
-                    color: '#2B4CFF',
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.4
+            L.circleMarker(stop.loc, {
+                radius: Math.sqrt(stop.vol)/2,
+                fillColor: '#2B4CFF',
+                color: '#2B4CFF',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.4
                 }).addTo(busLayer).bindPopup(`<strong>BUS STOP</strong><br>${stop.name}<br>Vol: ${stop.vol}<br>Hood: ${stop.hood}`);
             });
 
             // Render Bike Stations
             filteredBikeStations.forEach(st => {
-                L.marker(st.loc, {icon: squareIcon})
+            L.marker(st.loc, {icon: squareIcon})
                  .addTo(bikeLayer)
-                 .bindPopup(`<strong>POGOH STATION</strong><br>${st.name}`);
-            });
+             .bindPopup(`<strong>POGOH STATION</strong><br>${st.name}`);
+        });
         }
 
         // Initial Render
@@ -1201,8 +1443,8 @@
                         label: demographicsData.rider_types[0], // Member
                         data: top10.map(d => d.member),
                         backgroundColor: '#2B4CFF',
-                        borderColor: '#000',
-                        borderWidth: 1
+                    borderColor: '#000',
+                    borderWidth: 1
                     },
                     {
                         label: demographicsData.rider_types[1], // Casual
@@ -1234,11 +1476,11 @@
                 demographicsChart = new Chart(document.getElementById('demographicsChart'), {
                     type: 'bar',
                     data: chartData,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        indexAxis: 'y',
-                        plugins: {
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
                             legend: { position: 'top', labels: { font: { family: 'JetBrains Mono', size: 9 } } },
                             datalabels: {
                                 display: true,
@@ -1253,12 +1495,12 @@
                                 font: { size: 9, weight: 'bold', family: 'JetBrains Mono' },
                                 offset: 4
                             }
-                        },
-                        scales: {
-                            x: { stacked: true, grid: { display: false } },
-                            y: { stacked: true, ticks: { font: { size: 8 } } }
-                        }
-                    }
+                },
+                scales: {
+                    x: { stacked: true, grid: { display: false } },
+                    y: { stacked: true, ticks: { font: { size: 8 } } }
+                }
+            }
                 });
             }
         }
@@ -1831,8 +2073,11 @@
 
         busStopsData.forEach(stop => {
             if (stop.hood && stop.hood !== 'Unknown') {
-                neighborhoodScores[stop.hood] = (neighborhoodScores[stop.hood] || 0) + stop.integration_score;
-                neighborhoodCounts[stop.hood] = (neighborhoodCounts[stop.hood] || 0) + 1;
+                // EXCLUDE HAZELWOOD as requested by user
+                if (stop.hood.toLowerCase() !== 'hazelwood') {
+                    neighborhoodScores[stop.hood] = (neighborhoodScores[stop.hood] || 0) + stop.integration_score;
+                    neighborhoodCounts[stop.hood] = (neighborhoodCounts[stop.hood] || 0) + 1;
+                }
             }
         });
 
@@ -1867,7 +2112,10 @@
 
         // 10. Top 15 Individual Stops by Integration Index (New)
         // Sort all stops by integration score
-        const topIndexStops = [...busStopsData].sort((a, b) => b.integration_score - a.integration_score).slice(0, 15);
+        const topIndexStops = [...busStopsData]
+            .filter(s => s.hood && s.hood.toLowerCase() !== 'hazelwood') // Filter out Hazelwood here too
+            .sort((a, b) => b.integration_score - a.integration_score)
+            .slice(0, 15);
 
         new Chart(document.getElementById('topIndexChart'), {
             type: 'bar',
