@@ -1,29 +1,32 @@
+# macOS
+.DS_Store
+
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
+*.pyc
+*.pyo
+*.pyd
 .Python
-env/
-venv/
-ENV/
-.venv
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.env
 
-# Data files (optional - user may want to track these)
-# *.xlsx
-# *.csv
-# *.json
-
-# OS
-.DS_Store
-Thumbs.db
+# Large data files (keep only processed outputs)
+dataset/
+*.xlsx
+*.zip
+*.csv.gz
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
-# Logs
+# Temporary files
+*.tmp
 *.log
-
