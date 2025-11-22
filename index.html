@@ -810,8 +810,25 @@
                 <div class="viz-section">
                     <div class="panel chart-panel">
                         <div class="panel-header"><span>FIG 11. BEHAVIORAL HOTSPOTS (Top 3 Stations per Archetype)</span></div>
-                        <div style="padding:20px; min-height:500px;">
-                            <canvas id="stationArchetypesChart"></canvas>
+                        <div style="padding:20px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="border: 2px solid #2B4CFF; padding: 15px; background: #f8f9ff;">
+                                    <h4 style="font-family: 'JetBrains Mono'; color: #2B4CFF; margin: 0 0 10px 0;">COMMUTER HUBS</h4>
+                                    <canvas id="commuterChart" style="height: 200px;"></canvas>
+                                </div>
+                                <div style="border: 2px solid #FF9500; padding: 15px; background: #fff9f0;">
+                                    <h4 style="font-family: 'JetBrains Mono'; color: #FF9500; margin: 0 0 10px 0;">LAST-MILE CONNECTORS</h4>
+                                    <canvas id="lastMileChart" style="height: 200px;"></canvas>
+                                </div>
+                                <div style="border: 2px solid #34C759; padding: 15px; background: #f0fdf4;">
+                                    <h4 style="font-family: 'JetBrains Mono'; color: #34C759; margin: 0 0 10px 0;">ERRAND CENTERS</h4>
+                                    <canvas id="errandChart" style="height: 200px;"></canvas>
+                                </div>
+                                <div style="border: 2px solid #FF2B8C; padding: 15px; background: #fff0f7;">
+                                    <h4 style="font-family: 'JetBrains Mono'; color: #FF2B8C; margin: 0 0 10px 0;">LEISURE DESTINATIONS</h4>
+                                    <canvas id="leisureChart" style="height: 200px;"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1950,7 +1967,7 @@
             }
         });
 
-        // FIG 11: Station Archetypes Chart (Grouped Horizontal Bar)
+        // FIG 11: Station Archetypes - 4 Separate Bar Charts
         const archetypeColors = {
             'Commuter': '#2B4CFF',
             'Last-Mile': '#FF9500',
@@ -1958,81 +1975,66 @@
             'Leisure': '#FF2B8C'
         };
 
-        const archetypeOrder = ['Commuter', 'Last-Mile', 'Errand', 'Leisure'];
-        const archetypeDatasets = archetypeOrder.map(archetype => {
+        // Helper function to create archetype chart
+        function createArchetypeChart(canvasId, archetype, color) {
             const data = stationArchetypesData[archetype];
-            return {
-                label: archetype,
-                data: data.percentages,
-                backgroundColor: archetypeColors[archetype],
-                barPercentage: 0.7,
-                categoryPercentage: 0.85,
-                stations: data.stations,
-                trip_counts: data.trip_counts,
-                total_trips: data.total_trips
-            };
-        });
+            const labels = data.stations.map(s => s.substring(0, 25));
 
-        // Combine all station labels (3 per archetype = 12 total)
-        const allStationLabels = archetypeOrder.flatMap(archetype =>
-            stationArchetypesData[archetype].stations.map(s => s.substring(0, 30))
-        );
-
-        new Chart(document.getElementById('stationArchetypesChart'), {
-            type: 'bar',
-            data: {
-                labels: allStationLabels,
-                datasets: archetypeDatasets
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: { family: 'JetBrains Mono', size: 11 },
-                            usePointStyle: true,
-                            padding: 15
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: 'Percentage of trips matching each archetype (Top 3 stations per behavior type)',
-                        font: { family: 'JetBrains Mono', size: 11 },
-                        padding: { bottom: 15 }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const archetype = context.dataset.label;
-                                const idx = context.dataIndex % 3; // 3 stations per archetype
-                                const station = context.dataset.stations[idx];
-                                const pct = context.dataset.data[idx];
-                                const trips = context.dataset.trip_counts[idx];
-                                const total = context.dataset.total_trips[idx];
-                                return `${archetype}: ${pct}% (${trips.toLocaleString()} of ${total.toLocaleString()} trips)`;
+            new Chart(document.getElementById(canvasId), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: archetype + ' %',
+                        data: data.percentages,
+                        backgroundColor: color,
+                        barPercentage: 0.7
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const idx = context.dataIndex;
+                                    const pct = data.percentages[idx];
+                                    const trips = data.trip_counts[idx];
+                                    const total = data.total_trips[idx];
+                                    return `${pct}% (${trips.toLocaleString()} of ${total.toLocaleString()} trips)`;
+                                }
                             }
                         }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Percentage of Total Trips at Station', font: { size: 12 } },
-                        ticks: { callback: function(value) { return value + '%'; } },
-                        grid: { color: '#e0e0e0' }
                     },
-                    y: {
-                        ticks: {
-                            font: { family: 'JetBrains Mono', size: 9 },
-                            autoSkip: false
+                    scales: {
+                        x: {
+                            max: 70,
+                            ticks: {
+                                callback: function(value) { return value + '%'; },
+                                font: { size: 10 }
+                            },
+                            grid: { color: '#e0e0e0' }
                         },
-                        grid: { display: false }
+                        y: {
+                            ticks: {
+                                font: { family: 'JetBrains Mono', size: 9 },
+                                autoSkip: false
+                            },
+                            grid: { display: false }
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+
+        // Create all 4 charts
+        createArchetypeChart('commuterChart', 'Commuter', archetypeColors['Commuter']);
+        createArchetypeChart('lastMileChart', 'Last-Mile', archetypeColors['Last-Mile']);
+        createArchetypeChart('errandChart', 'Errand', archetypeColors['Errand']);
+        createArchetypeChart('leisureChart', 'Leisure', archetypeColors['Leisure']);
 
         // --- APPLY FILTERS BUTTON ---
         document.getElementById('apply-filters-btn').addEventListener('click', function() {
