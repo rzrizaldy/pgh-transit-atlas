@@ -806,7 +806,28 @@
                     </div>
                 </div>
 
-                <!-- SECTION 8: POLICY RECOMMENDATIONS (MOVED TO BOTTOM) -->
+                <!-- SECTION 8: STATION ARCHETYPES -->
+                <div class="viz-section">
+                    <div class="panel chart-panel">
+                        <div class="panel-header"><span>FIG 11. BEHAVIORAL HOTSPOTS (Top 3 Stations per Archetype)</span></div>
+                        <div style="padding:20px; min-height:500px;">
+                            <canvas id="stationArchetypesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="panel insight-panel">
+                        <div class="insight-header">🎭 Station Personalities</div>
+                        <div class="insight-body">
+                            <p><strong>Commuter Hubs:</strong> <span class="metric-highlight">Schenley Dr (64.8%)</span> and <span class="metric-highlight">Forbes @ CMU (61.2%)</span> are pure commuter stations—peak hour, A-to-B efficiency dominates.</p>
+                            <p><strong>Last-Mile Connectors:</strong> <span class="metric-highlight">Boulevard of the Allies (46.9%)</span> shows high last-mile percentage, serving as a critical transit feeder.</p>
+                            <p><strong>Errand Centers:</strong> <span class="metric-highlight">Wilkinsburg Park & Ride (68.4%!)</span> is overwhelmingly errand-focused, suggesting suburban shopping/service trip patterns.</p>
+                            <p><strong>Leisure Destinations:</strong> <span class="metric-highlight">South Side Trail (19.0%)</span> captures recreational riders—longer durations, lower displacement (circular routes).</p>
+                            <p><strong>Policy Insight:</strong> Stations have behavioral "DNA". Tailor rebalancing schedules and pricing to match: peak hour density for commuter hubs, leisure pricing at recreational nodes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 9: POLICY RECOMMENDATIONS (MOVED TO BOTTOM) -->
                 <div class="viz-section">
                     <div class="panel" style="padding:30px; background:#fff9f5;">
                         <h2 style="font-family:'Space Grotesk'; font-size:1.8rem; border-bottom:4px solid var(--alert-pink); padding-bottom:10px; margin-bottom:25px;">
@@ -1037,6 +1058,54 @@
                     </div>
                     <div class="nb-output" style="padding:10px;">
                         <canvas id="notebookChart5" style="max-height:400px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- CELL 3B: STATION × ARCHETYPE ANALYSIS -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>3B. Station Behavioral Profiling</h3>
+                        <p>After identifying trip archetypes, we reverse the analysis: <em>which stations generate which behaviors?</em> This reveals "station personalities" critical for targeted operational decisions.</p>
+                        <p><strong>Methodology:</strong></p>
+                        <ul>
+                            <li><strong>Percentage Calculation:</strong> For each station, calculate % of trips matching each archetype (Commuter/Last-Mile/Errand/Leisure)</li>
+                            <li><strong>Statistical Significance:</strong> Only stations with 50+ total trips included (prevents noise from low-volume stations)</li>
+                            <li><strong>Top 3 Selection:</strong> Identify top 3 stations with highest percentage for each archetype</li>
+                        </ul>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 3B. STATION ARCHETYPE PROFILING (etl.py lines 580-617)</span><br>
+                        <span class="comment"># Calculate percentage of each archetype per station</span><br>
+                        trips_clean['archetype_label'] = trips_clean['archetype'].map(archetype_map)<br><br>
+                        <span class="function">for</span> archetype <span class="function">in</span> ['Commuter', 'Last-Mile', 'Errand', 'Leisure']:<br>
+                        &nbsp;&nbsp;<span class="comment"># Count trips by station for this archetype</span><br>
+                        &nbsp;&nbsp;station_counts = trips_clean.groupby(['Start Station Name', 'archetype_label']).size()<br><br>
+                        &nbsp;&nbsp;<span class="comment"># Get total trips per station</span><br>
+                        &nbsp;&nbsp;station_totals = trips_clean.groupby('Start Station Name').size()<br><br>
+                        &nbsp;&nbsp;<span class="comment"># Calculate percentage</span><br>
+                        &nbsp;&nbsp;station_archetype_pct = (station_counts / station_totals) * 100<br><br>
+                        &nbsp;&nbsp;<span class="comment"># Filter: only stations with 50+ trips</span><br>
+                        &nbsp;&nbsp;archetype_data = station_archetype_pct[station_totals >= 50]<br><br>
+                        &nbsp;&nbsp;<span class="comment"># Get top 3 by percentage</span><br>
+                        &nbsp;&nbsp;top_3 = archetype_data.nlargest(3)<br>
+                        &nbsp;&nbsp;<span class="function">print</span>(f"{archetype}: {top_3}")
+                    </div>
+                    <div class="nb-output">
+                        <strong>✓ Station Behavioral Profiles Identified:</strong><br><br>
+                        <strong>Commuter Hotspots:</strong><br>
+                        • <strong>Schenley Dr & Schenley Dr Ext: 64.8%</strong> (12,721 of 19,637 trips) — Pure commuter station at CMU campus edge<br>
+                        • <strong>Forbes Ave @ TCS Hall (CMU): 61.2%</strong> (10,168 of 16,607 trips) — Academic commuter hub<br><br>
+                        <strong>Last-Mile Leaders:</strong><br>
+                        • <strong>Boulevard of the Allies & Parkview Ave: 46.9%</strong> (13,859 of 29,538 trips) — Critical transit feeder<br>
+                        • <strong>S Millvale Ave & Centre Ave: 43.4%</strong> (4,045 of 9,310 trips) — East End connector<br><br>
+                        <strong>Errand Centers:</strong><br>
+                        • <strong>Wilkinsburg Park & Ride: 68.4%!</strong> (444 of 649 trips) — Suburban shopping/service trips dominate<br>
+                        • <strong>Second Ave & Tecumseh St: 61.4%</strong> (181 of 295 trips) — South Side errand node<br><br>
+                        <strong>Leisure Destinations:</strong><br>
+                        • <strong>South Side Trail & S 4th St: 19.0%</strong> (712 of 3,739 trips) — Recreational waterfront<br>
+                        • <strong>Liberty Ave & Stanwix St: 18.9%</strong> (1,218 of 6,438 trips) — Downtown leisure hub<br><br>
+                        <strong>Key Insight:</strong> Stations have distinct behavioral "DNA". Schenley Dr is 64.8% commuter vs South Side Trail at 19.0% leisure—these require completely different fleet rebalancing strategies.<br><br>
+                        <strong>Exported to:</strong> <code style="background: #ffe066; padding: 2px 6px;">./processed_data/station_archetypes.csv</code>
                     </div>
                 </div>
 
@@ -1875,6 +1944,90 @@
                         display: true,
                         position: 'bottom',
                         title: { display: true, text: 'Nearby Bike Trips', color: '#FF2B8C' },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // FIG 11: Station Archetypes Chart (Grouped Horizontal Bar)
+        const archetypeColors = {
+            'Commuter': '#2B4CFF',
+            'Last-Mile': '#FF9500',
+            'Errand': '#34C759',
+            'Leisure': '#FF2B8C'
+        };
+
+        const archetypeOrder = ['Commuter', 'Last-Mile', 'Errand', 'Leisure'];
+        const archetypeDatasets = archetypeOrder.map(archetype => {
+            const data = stationArchetypesData[archetype];
+            return {
+                label: archetype,
+                data: data.percentages,
+                backgroundColor: archetypeColors[archetype],
+                barPercentage: 0.7,
+                categoryPercentage: 0.85,
+                stations: data.stations,
+                trip_counts: data.trip_counts,
+                total_trips: data.total_trips
+            };
+        });
+
+        // Combine all station labels (3 per archetype = 12 total)
+        const allStationLabels = archetypeOrder.flatMap(archetype =>
+            stationArchetypesData[archetype].stations.map(s => s.substring(0, 30))
+        );
+
+        new Chart(document.getElementById('stationArchetypesChart'), {
+            type: 'bar',
+            data: {
+                labels: allStationLabels,
+                datasets: archetypeDatasets
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: { family: 'JetBrains Mono', size: 11 },
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Percentage of trips matching each archetype (Top 3 stations per behavior type)',
+                        font: { family: 'JetBrains Mono', size: 11 },
+                        padding: { bottom: 15 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const archetype = context.dataset.label;
+                                const idx = context.dataIndex % 3; // 3 stations per archetype
+                                const station = context.dataset.stations[idx];
+                                const pct = context.dataset.data[idx];
+                                const trips = context.dataset.trip_counts[idx];
+                                const total = context.dataset.total_trips[idx];
+                                return `${archetype}: ${pct}% (${trips.toLocaleString()} of ${total.toLocaleString()} trips)`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Percentage of Total Trips at Station', font: { size: 12 } },
+                        ticks: { callback: function(value) { return value + '%'; } },
+                        grid: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        ticks: {
+                            font: { family: 'JetBrains Mono', size: 9 },
+                            autoSkip: false
+                        },
                         grid: { display: false }
                     }
                 }
