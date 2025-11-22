@@ -812,21 +812,29 @@
                         <div class="panel-header"><span>FIG 11. BEHAVIORAL HOTSPOTS (Top 3 Stations per Archetype)</span></div>
                         <div style="padding:20px;">
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                                <div style="border: 2px solid #2B4CFF; padding: 15px; background: #f8f9ff;">
-                                    <h4 style="font-family: 'JetBrains Mono'; color: #2B4CFF; margin: 0 0 10px 0;">COMMUTER HUBS</h4>
-                                    <canvas id="commuterChart" style="height: 200px;"></canvas>
+                                <div style="border: 3px solid #2B4CFF; padding: 20px; background: #f8f9ff; border-radius: 4px;">
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; color: #2B4CFF; margin: 0 0 15px 0; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px;">🚴 COMMUTER HUBS</h4>
+                                    <div style="height: 180px; position: relative;">
+                                        <canvas id="commuterChart"></canvas>
+                                    </div>
                                 </div>
-                                <div style="border: 2px solid #FF9500; padding: 15px; background: #fff9f0;">
-                                    <h4 style="font-family: 'JetBrains Mono'; color: #FF9500; margin: 0 0 10px 0;">LAST-MILE CONNECTORS</h4>
-                                    <canvas id="lastMileChart" style="height: 200px;"></canvas>
+                                <div style="border: 3px solid #FF9500; padding: 20px; background: #fff9f0; border-radius: 4px;">
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; color: #FF9500; margin: 0 0 15px 0; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px;">🔗 LAST-MILE CONNECTORS</h4>
+                                    <div style="height: 180px; position: relative;">
+                                        <canvas id="lastMileChart"></canvas>
+                                    </div>
                                 </div>
-                                <div style="border: 2px solid #34C759; padding: 15px; background: #f0fdf4;">
-                                    <h4 style="font-family: 'JetBrains Mono'; color: #34C759; margin: 0 0 10px 0;">ERRAND CENTERS</h4>
-                                    <canvas id="errandChart" style="height: 200px;"></canvas>
+                                <div style="border: 3px solid #34C759; padding: 20px; background: #f0fdf4; border-radius: 4px;">
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; color: #34C759; margin: 0 0 15px 0; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px;">🛒 ERRAND CENTERS</h4>
+                                    <div style="height: 180px; position: relative;">
+                                        <canvas id="errandChart"></canvas>
+                                    </div>
                                 </div>
-                                <div style="border: 2px solid #FF2B8C; padding: 15px; background: #fff0f7;">
-                                    <h4 style="font-family: 'JetBrains Mono'; color: #FF2B8C; margin: 0 0 10px 0;">LEISURE DESTINATIONS</h4>
-                                    <canvas id="leisureChart" style="height: 200px;"></canvas>
+                                <div style="border: 3px solid #FF2B8C; padding: 20px; background: #fff0f7; border-radius: 4px;">
+                                    <h4 style="font-family: 'Space Grotesk', sans-serif; color: #FF2B8CFF; margin: 0 0 15px 0; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px;">🎨 LEISURE DESTINATIONS</h4>
+                                    <div style="height: 180px; position: relative;">
+                                        <canvas id="leisureChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1978,7 +1986,11 @@
         // Helper function to create archetype chart
         function createArchetypeChart(canvasId, archetype, color) {
             const data = stationArchetypesData[archetype];
-            const labels = data.stations.map(s => s.substring(0, 25));
+            const labels = data.stations.map(s => {
+                // Truncate long station names for better display
+                const name = s.length > 28 ? s.substring(0, 28) + '...' : s;
+                return name;
+            });
 
             new Chart(document.getElementById(canvasId), {
                 type: 'bar',
@@ -1988,42 +2000,74 @@
                         label: archetype + ' %',
                         data: data.percentages,
                         backgroundColor: color,
-                        barPercentage: 0.7
+                        borderColor: color,
+                        borderWidth: 0,
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.9
                     }]
                 },
                 options: {
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 10,
+                            top: 5,
+                            bottom: 5
+                        }
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: { family: 'Space Grotesk', size: 12, weight: 'bold' },
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            padding: 12,
+                            displayColors: false,
                             callbacks: {
+                                title: function(context) {
+                                    return data.stations[context[0].dataIndex];
+                                },
                                 label: function(context) {
                                     const idx = context.dataIndex;
                                     const pct = data.percentages[idx];
                                     const trips = data.trip_counts[idx];
                                     const total = data.total_trips[idx];
-                                    return `${pct}% (${trips.toLocaleString()} of ${total.toLocaleString()} trips)`;
+                                    return [`${pct.toFixed(1)}% ${archetype} trips`, `${trips.toLocaleString()} of ${total.toLocaleString()} total trips`];
                                 }
                             }
                         }
                     },
                     scales: {
                         x: {
-                            max: 70,
+                            beginAtZero: true,
+                            max: 75,
                             ticks: {
                                 callback: function(value) { return value + '%'; },
-                                font: { size: 10 }
+                                font: { family: 'JetBrains Mono', size: 10 },
+                                color: '#666'
                             },
-                            grid: { color: '#e0e0e0' }
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)',
+                                lineWidth: 1
+                            },
+                            border: {
+                                display: false
+                            }
                         },
                         y: {
                             ticks: {
-                                font: { family: 'JetBrains Mono', size: 9 },
-                                autoSkip: false
+                                font: { family: 'JetBrains Mono', size: 9, weight: '500' },
+                                color: '#333',
+                                autoSkip: false,
+                                padding: 8
                             },
-                            grid: { display: false }
+                            grid: { display: false },
+                            border: {
+                                display: false
+                            }
                         }
                     }
                 }
