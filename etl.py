@@ -575,7 +575,8 @@ for arch in archetype_labels:
     })
 
 # Write JSON files
-output_dir = Path('.')
+output_dir = Path('./processed_data')
+output_dir.mkdir(exist_ok=True)
 with open(output_dir / 'bus_stops_geo.json', 'w') as f:
     json.dump(bus_stops_export, f, indent=2)
 print(f"    ✓ Exported {len(bus_stops_export)} bus stops to bus_stops_geo.json")
@@ -625,7 +626,123 @@ with open(output_dir / 'top_prt_pogoh.json', 'w') as f:
 print(f"    ✓ Exported top PRT-POGOH stops to top_prt_pogoh.json")
 
 # ============================================================================
-# 7. SUMMARY STATISTICS
+# 8. EXPORT CSV VERSIONS (For Easy Inspection)
+# ============================================================================
+
+print("\n[STEP 7] EXPORTING CSV VERSIONS...")
+
+# 1. Bus Stops CSV
+bus_stops_df = pd.DataFrame(bus_stops_export)
+bus_stops_df[['lat', 'lon']] = pd.DataFrame(bus_stops_df['loc'].tolist(), index=bus_stops_df.index)
+bus_stops_df = bus_stops_df.drop('loc', axis=1)
+bus_stops_df.to_csv(output_dir / 'bus_stops_geo.csv', index=False)
+print(f"    ✓ Exported bus_stops_geo.csv ({len(bus_stops_df)} rows)")
+
+# 2. Bike Stations CSV
+bike_stations_df = pd.DataFrame(bike_stations_export)
+bike_stations_df[['lat', 'lon']] = pd.DataFrame(bike_stations_df['loc'].tolist(), index=bike_stations_df.index)
+bike_stations_df = bike_stations_df.drop('loc', axis=1)
+bike_stations_df.to_csv(output_dir / 'bike_stations_geo.csv', index=False)
+print(f"    ✓ Exported bike_stations_geo.csv ({len(bike_stations_df)} rows)")
+
+# 3. Trip Archetypes CSV
+archetypes_df = pd.DataFrame(archetypes_export)
+archetypes_df.to_csv(output_dir / 'archetypes.csv', index=False)
+print(f"    ✓ Exported archetypes.csv ({len(archetypes_df)} rows)")
+
+# 4. Demographics CSV
+demographics_df = pd.DataFrame(demographics['data'], index=demographics['stations'])
+demographics_df.index.name = 'station'
+demographics_df.to_csv(output_dir / 'demographics.csv')
+print(f"    ✓ Exported demographics.csv ({len(demographics_df)} rows)")
+
+# 5. Directionality CSV
+directionality_df = pd.DataFrame({
+    'direction': directionality['labels'],
+    'trip_count': directionality['values']
+})
+directionality_df.to_csv(output_dir / 'directionality.csv', index=False)
+print(f"    ✓ Exported directionality.csv ({len(directionality_df)} rows)")
+
+# 6. Duration Distribution CSV
+duration_df = pd.DataFrame({
+    'duration_min': duration_distribution['bins'],
+    'trip_count': duration_distribution['counts']
+})
+duration_df.to_csv(output_dir / 'duration_distribution.csv', index=False)
+print(f"    ✓ Exported duration_distribution.csv ({len(duration_df)} rows)")
+
+# 7. Correlation CSV
+correlation_df = pd.DataFrame({
+    'stop_name': correlation_scatter['names'],
+    'bus_boardings': correlation_scatter['bus_boardings'],
+    'integration_index': correlation_scatter['integration_index'],
+    'neighborhood': correlation_scatter['neighborhoods']
+})
+correlation_df.to_csv(output_dir / 'correlation.csv', index=False)
+print(f"    ✓ Exported correlation.csv ({len(correlation_df)} rows)")
+
+# 8. Daily Timeseries CSV
+daily_ts_df = pd.DataFrame({
+    'date': daily_timeseries['dates'],
+    'pogoh_trips_total': daily_timeseries['pogoh_trips'],
+    'pogoh_trips_campus': daily_timeseries['pogoh_campus_trips'],
+    'pogoh_trips_city': daily_timeseries['pogoh_city_trips']
+})
+daily_ts_df.to_csv(output_dir / 'daily_timeseries.csv', index=False)
+print(f"    ✓ Exported daily_timeseries.csv ({len(daily_ts_df)} rows)")
+
+# 9. Monthly Trends CSV
+monthly_trends_df = pd.DataFrame({
+    'month': monthly_trends['labels'],
+    'pogoh_daily_avg': monthly_trends['pogoh_daily_avg'],
+    'pogoh_campus_daily': monthly_trends['pogoh_campus_daily'],
+    'pogoh_city_daily': monthly_trends['pogoh_city_daily']
+})
+monthly_trends_df.to_csv(output_dir / 'monthly_trends.csv', index=False)
+print(f"    ✓ Exported monthly_trends.csv ({len(monthly_trends_df)} rows)")
+
+# 10. PRT Historical CSV
+prt_historical_df = pd.DataFrame({
+    'date': monthly_trends['all_prt_labels'],
+    'bus_boardings': monthly_trends['all_prt_values']
+})
+prt_historical_df.to_csv(output_dir / 'prt_historical.csv', index=False)
+print(f"    ✓ Exported prt_historical.csv ({len(prt_historical_df)} rows)")
+
+# 11. Top PRT-POGOH Integration CSV
+top_prt_df = pd.DataFrame({
+    'stop_name': top_prt_pogoh['stops'],
+    'bus_boardings': top_prt_pogoh['bus_boardings'],
+    'bike_trips_nearby': top_prt_pogoh['bike_trips_nearby']
+})
+top_prt_df.to_csv(output_dir / 'top_prt_pogoh.csv', index=False)
+print(f"    ✓ Exported top_prt_pogoh.csv ({len(top_prt_df)} rows)")
+
+# 12. Heatmap CSV (Hour × Day)
+heatmap_df = pd.DataFrame(
+    heatmap['data'],
+    columns=heatmap['days'],
+    index=heatmap['hours']
+)
+heatmap_df.index.name = 'hour'
+heatmap_df.to_csv(output_dir / 'heatmap_hour_day.csv')
+print(f"    ✓ Exported heatmap_hour_day.csv ({len(heatmap_df)} rows)")
+
+# 13. Seasonal Heatmap CSV (Hour × Season)
+seasonal_heatmap_df = pd.DataFrame(
+    seasonal_heatmap_export['data'],
+    columns=seasonal_heatmap_export['seasons'],
+    index=seasonal_heatmap_export['hours']
+)
+seasonal_heatmap_df.index.name = 'hour'
+seasonal_heatmap_df.to_csv(output_dir / 'heatmap_hour_season.csv')
+print(f"    ✓ Exported heatmap_hour_season.csv ({len(seasonal_heatmap_df)} rows)")
+
+print(f"\n    → Total: 12 JSON + 13 CSV files exported to ./processed_data/")
+
+# ============================================================================
+# 9. SUMMARY STATISTICS
 # ============================================================================
 
 print("\n" + "=" * 80)

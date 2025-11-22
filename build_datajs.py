@@ -4,42 +4,45 @@ Build data.js from individual JSON files
 """
 
 import json
+from pathlib import Path
 
-# Read all JSON files
-with open('bus_stops_geo.json', 'r') as f:
+# Read all JSON files from processed_data directory
+data_dir = Path('./processed_data')
+
+with open(data_dir / 'bus_stops_geo.json', 'r') as f:
     bus_stops = json.load(f)
 
-with open('bike_stations_geo.json', 'r') as f:
+with open(data_dir / 'bike_stations_geo.json', 'r') as f:
     bike_stations = json.load(f)
 
-with open('monthly_trends.json', 'r') as f:
+with open(data_dir / 'monthly_trends.json', 'r') as f:
     monthly_trends = json.load(f)
 
-with open('archetypes.json', 'r') as f:
+with open(data_dir / 'archetypes.json', 'r') as f:
     archetypes = json.load(f)
 
-with open('directionality.json', 'r') as f:
+with open(data_dir / 'directionality.json', 'r') as f:
     directionality = json.load(f)
 
-with open('demographics.json', 'r') as f:
+with open(data_dir / 'demographics.json', 'r') as f:
     demographics = json.load(f)
 
-with open('duration_distribution.json', 'r') as f:
+with open(data_dir / 'duration_distribution.json', 'r') as f:
     duration_dist = json.load(f)
 
-with open('correlation.json', 'r') as f:
+with open(data_dir / 'correlation.json', 'r') as f:
     correlation = json.load(f)
 
-with open('heatmap.json', 'r') as f:
+with open(data_dir / 'heatmap.json', 'r') as f:
     heatmap = json.load(f)
 
-with open('seasonal_heatmap.json', 'r') as f:
+with open(data_dir / 'seasonal_heatmap.json', 'r') as f:
     seasonal_heatmap = json.load(f)
 
-with open('daily_timeseries.json', 'r') as f:
+with open(data_dir / 'daily_timeseries.json', 'r') as f:
     daily_timeseries = json.load(f)
 
-with open('top_prt_pogoh.json', 'r') as f:
+with open(data_dir / 'top_prt_pogoh.json', 'r') as f:
     top_prt_pogoh = json.load(f)
 
 # Write data.js

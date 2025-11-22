@@ -1,0 +1,5 @@
+label,count,avg_duration_min,avg_distance_m,peak_hour
+Commuter,266603,7.7,836.0,17.7
+Errand,87128,20.1,3359.0,14.8
+Last-Mile,182663,7.0,910.0,9.3
+Leisure,20043,73.2,737.0,14.4
