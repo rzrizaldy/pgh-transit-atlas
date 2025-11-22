@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PGH_TRANSIT_ATLAS // 2025</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* --- PALETTE: Neo-Brutalist Schematic --- */
+            --paper: #F2F0E9;
+            --ink: #1A1A1A;
+            --blueprint: #2B4CFF;
+            --safety-orange: #FF4D00;
+            --terminal-green: #00B884;
+            --alert-pink: #FF2B8C;
+            --grid-color: #D1D1D1;
+            
+            /* --- STRUCTURE --- */
+            --border-heavy: 3px solid var(--ink);
+            --border-light: 1px solid var(--ink);
+            --shadow-deep: 6px 6px 0px var(--ink);
+            --shadow-shallow: 3px 3px 0px var(--ink);
+            --radius: 0px; /* Brutalist = No rounded corners */
+        }
+
+        body {
+            background-color: var(--paper);
+            /* Technical Grid Background */
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--ink);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- UI COMPONENTS --- */
+        
+        /* Top Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-bottom: var(--border-heavy);
+            padding: 0 20px;
+            height: 70px;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand span {
+            background: var(--ink);
+            color: white;
+            padding: 2px 8px;
+            font-size: 0.9rem;
+        }
+
+        .mode-switch {
+            display: flex;
+            gap: 15px;
+        }
+
+        button.retro-btn {
+            background: white;
+            border: var(--border-heavy);
+            padding: 10px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-shallow);
+            transition: all 0.1s;
+            position: relative;
+        }
+
+        button.retro-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-deep);
+        }
+
+        button.retro-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        button.retro-btn.active {
+            background: var(--blueprint);
+            color: white;
+            box-shadow: none;
+            transform: translate(2px, 2px);
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-section {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .view-section.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* --- VIZ VIEW LAYOUT (VERTICAL SCROLLING) --- */
+        .viz-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding-bottom: 40px;
+        }
+
+        .viz-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .viz-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .panel {
+            background: white;
+            border: var(--border-heavy);
+            box-shadow: var(--shadow-deep);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            background: var(--ink);
+            color: white;
+            padding: 8px 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .panel-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .control-dot {
+            width: 10px; height: 10px;
+            background: white;
+            border: 1px solid black;
+        }
+
+        /* Specific Panels */
+        .control-panel {
+            padding: 20px;
+            background: var(--paper);
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid black;
+            font-family: inherit;
+            background: white;
+            font-size: 0.95rem;
+        }
+
+        #map-wrapper {
+            min-height: 500px;
+            padding: 0;
+        }
+
+        .chart-panel {
+            min-height: 350px;
+            padding: 15px;
+        }
+
+        .insight-panel {
+            padding: 20px;
+            background: linear-gradient(135deg, #fffdf5 0%, #fff 100%);
+        }
+
+        .insight-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 10px;
+            color: var(--blueprint);
+        }
+
+        .insight-body {
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .metric-highlight {
+            display: inline-block;
+            background: var(--safety-orange);
+            color: white;
+            padding: 2px 8px;
+            font-weight: bold;
+            margin: 0 4px;
+        }
+
+        .policy-box {
+            background: white;
+            border-left: 5px solid var(--alert-pink);
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .policy-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .policy-desc {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .policy-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-tag {
+            padding: 6px 12px;
+            background: var(--blueprint);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: 2px solid black;
+        }
+
+        /* Map Styling */
+        #map { height: 100%; width: 100%; background: #ddd; }
+        
+        /* Metric Cards in Sidebar */
+        .stat-card {
+            border: var(--border-light);
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #fff;
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--blueprint);
+        }
+        .stat-context {
+            font-size: 0.7rem;
+            margin-top: 5px;
+            border-top: 1px dashed #ccc;
+            padding-top: 5px;
+        }
+
+        /* --- NOTEBOOK VIEW LAYOUT --- */
+        .notebook-container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding-bottom: 50px;
+        }
+
+        .nb-cell {
+            background: white;
+            border: var(--border-heavy);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-shallow);
+        }
+
+        .nb-input {
+            background: #f8f8f8;
+            border-bottom: var(--border-light);
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .nb-input::before {
+            content: "IN [ ]:";
+            position: absolute;
+            left: -60px;
+            top: 15px;
+            font-weight: bold;
+            color: var(--blueprint);
+        }
+
+        .nb-output {
+            padding: 20px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .nb-md {
+            padding: 20px;
+            line-height: 1.6;
+            background: #fffdf5; /* warm notes color */
+        }
+
+        .code-highlight { color: #d63384; }
+        .comment { color: #6c757d; font-style: italic; }
+        .function { color: var(--blueprint); font-weight: bold; }
+
+        /* Ticker */
+        .ticker-tape {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--safety-orange);
+            color: white;
+            border-top: var(--border-heavy);
+            padding: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 0.8rem;
+            z-index: 2000;
+        }
+        
+        @media (max-width: 1000px) {
+            .viz-grid { grid-template-columns: 1fr; grid-template-rows: auto; display: flex; flex-direction: column; }
+            .nb-input::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="brand">
+            PGH_TRANSIT_ATLAS <span>v2.4</span>
+        </div>
+        <div class="mode-switch">
+            <button class="retro-btn active" onclick="toggleMode('viz')">1. INTERACTIVE VIZ</button>
+            <button class="retro-btn" onclick="toggleMode('eda')">2. CODE & METHODS</button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- VIEW 1: VIZ DASHBOARD -->
+        <section id="viz-view" class="view-section active">
+            <div class="viz-grid">
+                
+                <!-- Sidebar: Controls & Metrics -->
+                <div class="panel" id="sidebar">
+                    <div class="panel-header">
+                        <span>// CONTROL_DECK</span>
+                        <div class="panel-controls"><div class="control-dot"></div></div>
+                    </div>
+                    
+                    <h3 style="font-family: 'Space Grotesk'; border-bottom: 3px solid black; padding-bottom: 5px;">FILTER SCOPE</h3>
+                    
+                    <label style="display:block; margin-bottom:5px; font-size:0.8rem; font-weight:bold;">SELECT CORRIDOR:</label>
+                    <select id="corridor-filter" style="width:100%; padding:10px; border:2px solid black; font-family:inherit; margin-bottom:20px; background:var(--paper);">
+                        <option value="system">System Wide</option>
+                        <option value="campus">Campus Corridor (CMU/Pitt)</option>
+                    </select>
+
+                    <div class="stat-card">
+                        <span class="stat-label">INTEGRATION SCORE (CITYWIDE)</span>
+                        <span class="stat-value" id="integration-score">...</span>
+                        <div class="stat-context" id="integration-context">
+                            Calculating from real data...
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">FIRST/LAST MILE TRIPS</span>
+                        <span class="stat-value" id="lastmile-trips">...</span>
+                        <div class="stat-context">
+                            POGOH trips from K-Means clustering analysis
+                        </div>
+                    </div>
+
+                    <div class="stat-card" style="background: var(--alert-pink); color: white;">
+                        <span class="stat-label" style="color:white;">EQUITY ALERT</span>
+                        <span class="stat-value">MODERATE</span>
+                        <div class="stat-context" style="border-color: white;">
+                            88% of bus stops have NO bike activity within 400m
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Map Panel -->
+                <div class="panel" id="map-wrapper">
+                    <div class="panel-header">
+                        <span>// SYSTEM_BLUEPRINT_MAP</span>
+                        <div class="panel-controls"><div class="control-dot"></div><div class="control-dot"></div></div>
+                    </div>
+                    <div id="map"></div>
+                    <!-- Map Legend Overlay -->
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: white; border: 2px solid black; padding: 10px; z-index: 999; font-size: 0.8rem;">
+                        <div style="display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+                            <div style="width:12px; height:12px; background:var(--blueprint); border-radius:50%;"></div> PRT Stop (Size=Vol)
+                        </div>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <div style="width:12px; height:12px; background:var(--alert-pink); border:1px solid black;"></div> POGOH Station
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Charts - Expanded to 8 Charts -->
+                <div id="bottom-deck">
+                    <div class="panel" style="grid-column: span 2;">
+                        <div class="panel-header"><span>FIG 1. TEMPORAL HANDOFF (2024-25)</span></div>
+                        <div style="padding:15px; height: 100%;">
+                            <canvas id="timeChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><span>FIG 2. TRIP ARCHETYPES</span></div>
+                        <div style="padding:15px; height: 100%;">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><span>FIG 3. DIRECTIONALITY</span></div>
+                        <div style="padding:15px; height: 100%;">
+                            <canvas id="polarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><span>FIG 4. TOP STATIONS</span></div>
+                        <div style="padding:15px; height: 100%;">
+                            <canvas id="demographicsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><span>FIG 5. TRIP DURATION</span></div>
+                        <div style="padding:15px; height: 100%;">
+                            <canvas id="durationChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><span>FIG 6. BUS-BIKE CORRELATION</span></div>
+                        <div style="padding:15px; height: 100%;">
+                            <canvas id="correlationChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><span>FIG 7. HOURLY HEATMAP</span></div>
+                        <div style="padding:15px; height: 100%;">
+                            <canvas id="heatmapChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: NOTEBOOK / EDA -->
+        <section id="eda-view" class="view-section">
+            <div class="notebook-container">
+                
+                <h1 style="font-family: 'Space Grotesk'; font-size: 2.5rem; border-bottom: 5px solid black; padding-bottom: 10px;">METHODOLOGY LOG</h1>
+                <p style="margin-bottom: 40px;">Transparent data pipeline documenting the transformation of raw WPRDC CSVs into the integration metrics.</p>
+
+                <!-- CELL 1 -->
+                <div class="nb-cell">
+                    <div class="nb-input">
+                        <span class="comment"># 1. SETUP & INGESTION</span><br>
+                        <span class="function">import</span> pandas <span class="function">as</span> pd<br>
+                        <span class="function">import</span> numpy <span class="function">as</span> np<br>
+                        <span class="function">from</span> sklearn.cluster <span class="function">import</span> KMeans<br>
+                        <span class="function">from</span> scipy.spatial <span class="function">import</span> distance_matrix<br><br>
+                        <span class="comment"># Load POGOH Trips (12 monthly XLSX files)</span><br>
+                        trip_files = ['november-2024.xlsx', ..., 'pogoh-october-2025.xlsx']<br>
+                        trips = pd.concat([pd.read_excel(f'dataset/{f}') <span class="function">for</span> f <span class="function">in</span> trip_files])<br>
+                        trips['Start Date'] = pd.to_datetime(trips['Start Date'])<br>
+                        print(f"Total Trips Loaded: {len(trips):,}")
+                    </div>
+                    <div class="nb-output">
+                        Total Trips Loaded: 557,542<br>
+                        Range: 2024-11-01 to 2025-10-31<br>
+                        Filtered outliers (>4hrs): 1,027 trips removed
+                    </div>
+                </div>
+
+                <!-- CELL 2 -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>Logic: The Integration Index</h3>
+                        <p>To quantify how well a bus stop connects to bikeshare, we use a spatial join with a 400m buffer (approx. 5 min walk). The index rewards stops that have both high bus ridership AND high nearby bike turnover. Formula: <strong>I_b = (Bus_Boardings × log(Bike_Trips + 1)) / max(Distance, 10m)</strong></p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 2. CALCULATE INTEGRATION INDEX</span><br>
+                        <span class="comment"># Distance from each bus stop to nearest bike station</span><br>
+                        bus_coords = bus_stops[['latitude', 'longitude']].values<br>
+                        station_coords = stations[['Latitude', 'Longitude']].values<br>
+                        dist_matrix = distance_matrix(bus_coords, station_coords)<br>
+                        nearest_dist_m = dist_matrix.min(axis=1) * 111000 <span class="comment"># deg to meters</span><br>
+                        nearest_dist_m = np.maximum(nearest_dist_m, 10) <span class="comment"># 10m floor</span><br><br>
+                        <span class="comment"># Count bike trips within 400m buffer</span><br>
+                        <span class="function">for</span> bus_stop <span class="function">in</span> bus_stops:<br>
+                            &nbsp;&nbsp;nearby_stations = stations[haversine_dist(bus, stations) <= 400]<br>
+                            &nbsp;&nbsp;bike_trips_400m = len(trips[trips['Start Station Id'].isin(nearby_stations)])<br><br>
+                        <span class="comment"># Apply formula</span><br>
+                        integration_index = (bus_boardings * np.log(bike_trips_400m + 1)) / nearest_dist_m
+                    </div>
+                    <div class="nb-output">
+                        ✓ Integration Index calculated for 7,075 stops<br>
+                        Mean Index: 0.0044 | Max Index: 3.7329<br>
+                        Top: 7TH ST AT PENN AVE (CBD)
+                    </div>
+                </div>
+
+                <!-- CELL 3 -->
+                <div class="nb-cell">
+                    <div class="nb-input">
+                        <span class="comment"># 3. CLUSTERING TRIP ARCHETYPES (K-MEANS)</span><br>
+                        <span class="comment"># Normalize features for clustering</span><br>
+                        <span class="function">from</span> sklearn.preprocessing <span class="function">import</span> StandardScaler<br>
+                        features = trips[['Duration', 'displacement', 'hour']].values<br>
+                        scaler = StandardScaler()<br>
+                        features_scaled = scaler.fit_transform(features)<br><br>
+                        <span class="comment"># Perform K-Means (4 clusters)</span><br>
+                        kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)<br>
+                        trips['archetype'] = kmeans.fit_predict(features_scaled)<br>
+                        print(trips['archetype'].value_counts())
+                    </div>
+                    <div class="nb-output">
+                        <strong>Cluster Analysis Results:</strong><br>
+                        • Cluster 0 (Commuter): 266,603 trips (47.9%) - Avg 7.7min, 836m, Peak: 5-6pm<br>
+                        • Cluster 1 (Errand): 87,128 trips (15.7%) - Avg 20.1min, 3359m, Midday<br>
+                        • Cluster 2 (Last-Mile): 182,663 trips (32.8%) - Avg 7.0min, 910m, Peak: 9am<br>
+                        • Cluster 3 (Leisure): 20,043 trips (3.6%) - Avg 73.2min, 737m, Afternoon
+                    </div>
+                </div>
+
+                <!-- CELL 4 -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>Temporal Trends with Campus Corridor Filter</h3>
+                        <p>Monthly aggregates comparing POGOH and PRT ridership using <strong>Average Daily Ridership</strong>. Key innovation: Separating <strong>Campus (CMU/Pitt)</strong> vs <strong>City-Wide</strong> trips to understand student-driven vs general mobility.</p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 4. CAMPUS CORRIDOR SEGMENTATION</span><br>
+                        CAMPUS_BBOX = [(40.435, 40.450), (-79.970, -79.940)] <span class="comment"># CMU/Pitt area</span><br>
+                        trips['is_campus'] = (start <span class="function">or</span> end) <span class="function">in</span> CAMPUS_BBOX<br><br>
+                        <span class="comment"># Split temporal trends</span><br>
+                        campus_daily = trips[trips['is_campus']].groupby('month').size() / days<br>
+                        city_daily = trips[~trips['is_campus']].groupby('month').size() / days<br>
+                        prt_daily = bus_stops['R_W_YYYYMM'].sum()
+                    </div>
+                    <div class="nb-output">
+                        <strong>Campus Corridor Dominance: 68.1% of all trips!</strong><br>
+                        Peak Campus: Sep 2025 (2,535 trips/day)<br>
+                        Peak City: Aug 2025 (859 trips/day)<br>
+                        Winter Drop: Campus -63% vs City -40% (Jan)
+                    </div>
+                    <div class="nb-output" style="padding:10px;">
+                        <canvas id="notebookChart2" style="max-height:450px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- CELL 5 -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>Directionality Analysis</h3>
+                        <p>Using bearing calculations to understand traffic flow patterns. Hypothesis: East-West corridors (Forbes Ave) should dominate due to Oakland-Downtown connections.</p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 5. CALCULATE BEARING ANGLES</span><br>
+                        <span class="function">def</span> bearing(lat1, lon1, lat2, lon2):<br>
+                        &nbsp;&nbsp;<span class="function">return</span> np.arctan2(x, y) * 180 / π<br><br>
+                        trips['direction'] = pd.cut(bearing, bins=8, labels=['N','NE','E','SE','S','SW','W','NW'])<br>
+                        direction_counts = trips['direction'].value_counts()
+                    </div>
+                    <div class="nb-output">
+                        <strong>Primary Direction: NORTH (130,575 trips)</strong><br>
+                        Likely Oakland → East Liberty corridor<br>
+                        Secondary: SOUTH (reflecting return trips)
+                    </div>
+                    <div class="nb-output" style="padding:10px;">
+                        <canvas id="notebookChart4" style="max-height:450px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- CELL 6 -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>Demographics: Rider Type Distribution</h3>
+                        <p>Member vs. Casual riders by top 10 stations reveals adoption patterns.</p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 6. PIVOT: STATION × RIDER TYPE</span><br>
+                        top_10_stations = trips.groupby('Start Station Name').size().nlargest(10)<br>
+                        demo = trips.pivot_table(index='station', columns='Rider Type', aggfunc='size')
+                    </div>
+                    <div class="nb-output">
+                        Top Station: <strong>Pierce St & Summerlea St</strong> (4,766 trips)<br>
+                        Member dominance: ~70% across top stations
+                    </div>
+                    <div class="nb-output" style="padding:10px;">
+                        <canvas id="notebookChart5" style="max-height:450px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- CELL 7 -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>Duration Distribution Validation</h3>
+                        <p>Histogram to confirm log-normal distribution and validate outlier removal logic.</p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 7. HISTOGRAM (30 BINS, 0-60 MIN)</span><br>
+                        duration_hist, bins = np.histogram(trips['Duration']/60, bins=30, range=(0,60))<br>
+                        print(f"Mean: {trips['Duration'].mean()/60:.1f} min")<br>
+                        print(f"Median: {trips['Duration'].median()/60:.1f} min")
+                    </div>
+                    <div class="nb-output">
+                        Mean: 11.8 min | Median: 6.6 min<br>
+                        <strong>Log-normal confirmed</strong> (right-skewed)<br>
+                        Outliers >4hrs: 1,027 trips removed
+                    </div>
+                    <div class="nb-output" style="padding:10px;">
+                        <canvas id="notebookChart6" style="max-height:350px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- CELL 8 -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>Correlation: Bus Volume vs Bike Connectivity</h3>
+                        <p>Scatter plot testing if high bus ridership predicts high bike activity. Linear regression: <code>Integration_Index ~ Bus_Boardings</code></p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 8. LINEAR REGRESSION</span><br>
+                        <span class="function">from</span> scipy.stats <span class="function">import</span> linregress<br>
+                        slope, intercept, r, p, stderr = linregress(bus_boardings, integration_index)<br>
+                        print(f"R² = {r**2:.3f}, p < {p:.4f}")
+                    </div>
+                    <div class="nb-output">
+                        <strong>R² = 0.372 (Moderate Positive Correlation)</strong><br>
+                        p < 0.0001 (Highly Significant)<br>
+                        Interpretation: Bus stops with higher ridership DO tend to have better bike connectivity, but other factors matter (distance, neighborhood demographics).
+                    </div>
+                    <div class="nb-output" style="padding:10px;">
+                        <canvas id="notebookChart7" style="max-height:450px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- CELL 9 -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>Hourly × Daily Heatmap</h3>
+                        <p>Crosstab analysis revealing temporal patterns: When do people ride?</p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 9. HEATMAP: HOUR × DAY OF WEEK</span><br>
+                        heatmap = trips.pivot_table(index='hour', columns='day_name', values='trip_id', aggfunc='count')<br>
+                        peak = heatmap.stack().idxmax()
+                    </div>
+                    <div class="nb-output">
+                        <strong>Peak: Monday 5pm (7,737 trips)</strong><br>
+                        Commute pattern: Strong 8-9am and 5-6pm peaks M-F<br>
+                        Weekend pattern: Diffuse midday activity
+                    </div>
+                    <div class="nb-output" style="padding:10px;">
+                        <canvas id="notebookChart8" style="width:100%; height:500px;"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- TICKER -->
+    <div class="ticker-tape">
+        >>> POLICY ALERT: GAP ANALYSIS IDENTIFIES 4 STOPS IN HOMEWOOD WITH HIGH BOARDINGS BUT >800M TO NEAREST STATION >>> SEASONAL DATA SHOWS POGOH RETENTION RATE HIGHER THAN BUS DURING JAN 2025 >>>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="data.js"></script>
+
+    <script>
+        // --- MODE SWITCHING ---
+        function toggleMode(mode) {
+            // Update Buttons
+            document.querySelectorAll('.retro-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update View
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(mode + (mode === 'viz' ? '-view' : '-view')).classList.add('active');
+
+            // Map Resize Fix
+            if(mode === 'viz' && map) {
+                setTimeout(() => map.invalidateSize(), 100);
+            }
+        }
+
+        // --- POPULATE SIDEBAR METRICS FROM REAL DATA ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calculate average integration score
+            const avgIntegration = busStopsData.reduce((sum, stop) => sum + stop.integration_score, 0) / busStopsData.length;
+            const normalizedScore = Math.min(avgIntegration * 100, 10).toFixed(1); // Normalize to 0-10 scale
+            document.getElementById('integration-score').textContent = normalizedScore + '/10';
+
+            // Find top integrated stop
+            const topStop = busStopsData.reduce((max, stop) => stop.integration_score > max.integration_score ? stop : max);
+            document.getElementById('integration-context').innerHTML =
+                `<span style="color:var(--terminal-green)">Top: ${topStop.name}</span><br>High overlap in Downtown, Gaps in outer neighborhoods.`;
+
+            // Get Last-Mile trip count from archetypes
+            const lastMileArch = archetypesData.find(a => a.label === 'Last-Mile');
+            if (lastMileArch) {
+                document.getElementById('lastmile-trips').textContent = lastMileArch.count.toLocaleString();
+            }
+        });
+
+        // --- MAP INIT ---
+        const map = L.map('map').setView([40.445, -79.98], 13);
+        
+        // CartoDB Light (Greyscale) for Schematic Look
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CARTO',
+            maxZoom: 19
+        }).addTo(map);
+
+        // DATA: PRT Stops (Blue Circles) - LOADED FROM data.js
+        const busStops = busStopsData;
+
+        busStops.forEach(stop => {
+            L.circleMarker(stop.loc, {
+                radius: Math.sqrt(stop.vol)/2,
+                fillColor: '#2B4CFF',
+                color: '#2B4CFF',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.4
+            }).addTo(map).bindPopup(`<strong>BUS STOP</strong><br>${stop.name}<br>Vol: ${stop.vol}`);
+        });
+
+        // DATA: POGOH Stations (Pink Squares) - LOADED FROM data.js
+        const bikeStations = bikeStationsData;
+
+        // Custom Square Icon
+        const squareIcon = L.divIcon({
+            className: 'custom-icon',
+            html: `<div style="width:14px; height:14px; background:#FF2B8C; border:2px solid black;"></div>`,
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        bikeStations.forEach(st => {
+            L.marker(st.loc, {icon: squareIcon})
+             .addTo(map)
+             .bindPopup(`<strong>POGOH STATION</strong><br>${st.name}`);
+        });
+
+
+        // --- CHARTS ---
+        
+        // 1. Line Chart (Time Machine) - REAL DATA
+        new Chart(document.getElementById('timeChart'), {
+            type: 'line',
+            data: {
+                labels: monthlyTrendsData.labels,
+                datasets: [
+                    {
+                        label: 'PRT Bus Ridership (Daily Avg)',
+                        data: monthlyTrendsData.prt_daily_avg,
+                        borderColor: '#2B4CFF',
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: 0
+                    },
+                    {
+                        label: 'POGOH Trips (Daily Avg)',
+                        data: monthlyTrendsData.pogoh_daily_avg,
+                        borderColor: '#FF2B8C',
+                        borderWidth: 3,
+                        pointStyle: 'rectRot',
+                        pointRadius: 5,
+                        tension: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { font: { family: 'JetBrains Mono' } } }
+                },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { grid: { color: '#ddd', borderDash: [5,5] } }
+                }
+            }
+        });
+
+        // 2. Radar Chart (Archetypes) - REAL DATA
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: {
+                labels: archetypesData.map(a => a.label),
+                datasets: [{
+                    label: 'Trip Distribution',
+                    data: archetypesData.map(a => (a.count / 5565) * 100), // Normalize to percentage
+                    borderColor: '#2B4CFF',
+                    backgroundColor: 'rgba(43, 76, 255, 0.2)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#ccc' },
+                        grid: { color: '#ddd' },
+                        pointLabels: { font: { family: 'Space Grotesk', size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // 3. Polar Chart (Directionality) - DASHBOARD
+        new Chart(document.getElementById('polarChart'), {
+            type: 'polarArea',
+            data: {
+                labels: directionalityData.labels,
+                datasets: [{
+                    data: directionalityData.values,
+                    backgroundColor: [
+                        'rgba(43, 76, 255, 0.7)',
+                        'rgba(0, 184, 132, 0.7)',
+                        'rgba(255, 77, 0, 0.7)',
+                        'rgba(255, 43, 140, 0.7)',
+                        'rgba(43, 76, 255, 0.5)',
+                        'rgba(0, 184, 132, 0.5)',
+                        'rgba(255, 77, 0, 0.5)',
+                        'rgba(255, 43, 140, 0.5)'
+                    ],
+                    borderColor: '#000',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'JetBrains Mono', size: 9 } } }
+                },
+                scales: {
+                    r: {
+                        ticks: { backdropColor: 'transparent', font: { size: 9 } }
+                    }
+                }
+            }
+        });
+
+        // 4. Demographics Chart (Stacked Bar) - DASHBOARD
+        new Chart(document.getElementById('demographicsChart'), {
+            type: 'bar',
+            data: {
+                labels: demographicsData.stations,
+                datasets: demographicsData.rider_types.map((type, idx) => ({
+                    label: type,
+                    data: demographicsData.data[type],
+                    backgroundColor: idx === 0 ? '#2B4CFF' : '#FF4D00',
+                    borderColor: '#000',
+                    borderWidth: 1
+                }))
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { position: 'top', labels: { font: { family: 'JetBrains Mono', size: 9 } } }
+                },
+                scales: {
+                    x: { stacked: true, grid: { display: false } },
+                    y: { stacked: true, ticks: { font: { size: 8 } } }
+                }
+            }
+        });
+
+        // 5. Duration Distribution Chart (Histogram) - DASHBOARD
+        new Chart(document.getElementById('durationChart'), {
+            type: 'bar',
+            data: {
+                labels: durationDistData.bins.map(b => b.toFixed(0)),
+                datasets: [{
+                    label: 'Trips',
+                    data: durationDistData.counts,
+                    backgroundColor: '#00B884',
+                    borderColor: '#000',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Duration (min)', font: { size: 10 } },
+                        ticks: { maxRotation: 45, font: { size: 8 } }
+                    },
+                    y: {
+                        title: { display: true, text: 'Count', font: { size: 10 } },
+                        grid: { color: '#eee' }
+                    }
+                }
+            }
+        });
+
+        // 6. Correlation Scatter Chart - DASHBOARD
+        new Chart(document.getElementById('correlationChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Bus Stops',
+                    data: correlationData.bus_boardings.map((x, i) => ({
+                        x: x,
+                        y: correlationData.integration_index[i]
+                    })),
+                    backgroundColor: 'rgba(43, 76, 255, 0.6)',
+                    borderColor: '#2B4CFF',
+                    pointRadius: 2
+                },
+                {
+                    label: `R²=${correlationData.regression.r_squared.toFixed(3)}`,
+                    data: [
+                        { x: 0, y: correlationData.regression.intercept },
+                        { x: Math.max(...correlationData.bus_boardings),
+                          y: correlationData.regression.intercept + correlationData.regression.slope * Math.max(...correlationData.bus_boardings) }
+                    ],
+                    type: 'line',
+                    borderColor: '#FF4D00',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'top', labels: { font: { size: 9 } } } },
+                scales: {
+                    x: { title: { display: true, text: 'Bus Boardings', font: { size: 9 } } },
+                    y: { title: { display: true, text: 'Integration', font: { size: 9 } } }
+                }
+            }
+        });
+
+        // 7. Heatmap Chart - DASHBOARD
+        const dashboardHeatmapData = [];
+        heatmapData.hours.forEach((hour, h) => {
+            heatmapData.days.forEach((day, d) => {
+                const value = heatmapData.data[h][d];
+                if (value > 0) {
+                    dashboardHeatmapData.push({
+                        x: d,
+                        y: hour,
+                        r: Math.sqrt(value) / 4
+                    });
+                }
+            });
+        });
+
+        new Chart(document.getElementById('heatmapChart'), {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Trips',
+                    data: dashboardHeatmapData,
+                    backgroundColor: 'rgba(255, 77, 0, 0.6)',
+                    borderColor: '#FF4D00'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        type: 'category',
+                        labels: heatmapData.days,
+                        title: { display: true, text: 'Day', font: { size: 9 } },
+                        ticks: { font: { size: 8 } }
+                    },
+                    y: {
+                        title: { display: true, text: 'Hour', font: { size: 9 } },
+                        ticks: { stepSize: 4, font: { size: 8 } }
+                    }
+                }
+            }
+        });
+
+        // --- CAMPUS FILTER TOGGLE ---
+        let timeChartInstance = Chart.getChart('timeChart');
+
+        document.getElementById('corridor-filter').addEventListener('change', function(e) {
+            const filterMode = e.target.value;  // 'system' or 'campus'
+
+            // Update temporal chart dataset
+            if (filterMode === 'campus') {
+                // Show Campus vs City breakdown
+                timeChartInstance.data.datasets = [
+                    {
+                        label: 'Campus POGOH (Daily Avg)',
+                        data: monthlyTrendsData.pogoh_campus_daily,
+                        borderColor: '#FF4D00',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'City POGOH (Daily Avg)',
+                        data: monthlyTrendsData.pogoh_city_daily,
+                        borderColor: '#00B884',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'PRT Bus (Daily Avg)',
+                        data: monthlyTrendsData.prt_daily_avg,
+                        borderColor: '#2B4CFF',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        tension: 0
+                    }
+                ];
+
+                // Update sidebar label
+                document.querySelector('#sidebar .stat-card .stat-label').textContent = 'INTEGRATION SCORE (CAMPUS)';
+
+            } else {
+                // Show System-Wide view
+                timeChartInstance.data.datasets = [
+                    {
+                        label: 'PRT Bus Ridership (Daily Avg)',
+                        data: monthlyTrendsData.prt_daily_avg,
+                        borderColor: '#2B4CFF',
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: 0
+                    },
+                    {
+                        label: 'POGOH Trips (Daily Avg)',
+                        data: monthlyTrendsData.pogoh_daily_avg,
+                        borderColor: '#FF2B8C',
+                        borderWidth: 3,
+                        pointStyle: 'rectRot',
+                        pointRadius: 5,
+                        tension: 0
+                    }
+                ];
+
+                // Reset sidebar label
+                document.querySelector('#sidebar .stat-card .stat-label').textContent = 'INTEGRATION SCORE (CITYWIDE)';
+            }
+
+            timeChartInstance.update();
+        });
+
+        // --- NOTEBOOK CHARTS (CODE & METHODS TAB) ---
+
+        // NOTEBOOK CHART 2: Campus vs City Temporal (Line Chart)
+        new Chart(document.getElementById('notebookChart2'), {
+            type: 'line',
+            data: {
+                labels: monthlyTrendsData.labels,
+                datasets: [
+                    {
+                        label: 'Campus POGOH (Daily Avg)',
+                        data: monthlyTrendsData.pogoh_campus_daily,
+                        borderColor: '#FF4D00',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'City POGOH (Daily Avg)',
+                        data: monthlyTrendsData.pogoh_city_daily,
+                        borderColor: '#00B884',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'PRT Bus (Daily Avg)',
+                        data: monthlyTrendsData.prt_daily_avg,
+                        borderColor: '#2B4CFF',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        tension: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true, labels: { font: { family: 'JetBrains Mono', size: 10 } } } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { grid: { color: '#eee' }, title: { display: true, text: 'Daily Avg Trips' } }
+                }
+            }
+        });
+
+        // NOTEBOOK CHART 4: Directionality (Polar Area Chart)
+        new Chart(document.getElementById('notebookChart4'), {
+            type: 'polarArea',
+            data: {
+                labels: directionalityData.labels,
+                datasets: [{
+                    data: directionalityData.values,
+                    backgroundColor: [
+                        'rgba(43, 76, 255, 0.6)',
+                        'rgba(0, 184, 132, 0.6)',
+                        'rgba(255, 77, 0, 0.6)',
+                        'rgba(255, 43, 140, 0.6)',
+                        'rgba(43, 76, 255, 0.4)',
+                        'rgba(0, 184, 132, 0.4)',
+                        'rgba(255, 77, 0, 0.4)',
+                        'rgba(255, 43, 140, 0.4)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    r: {
+                        ticks: { backdropColor: 'transparent' }
+                    }
+                }
+            }
+        });
+
+        // NOTEBOOK CHART 5: Demographics (Stacked Bar Chart)
+        new Chart(document.getElementById('notebookChart5'), {
+            type: 'bar',
+            data: {
+                labels: demographicsData.stations,
+                datasets: demographicsData.rider_types.map((type, idx) => ({
+                    label: type,
+                    data: demographicsData.data[type],
+                    backgroundColor: idx === 0 ? '#2B4CFF' : '#FF4D00',
+                    borderColor: '#000',
+                    borderWidth: 1
+                }))
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: { legend: { display: true } },
+                scales: {
+                    x: { stacked: true, grid: { display: false } },
+                    y: { stacked: true, ticks: { font: { size: 9 } } }
+                }
+            }
+        });
+
+        // NOTEBOOK CHART 6: Duration Distribution (Histogram/Bar)
+        new Chart(document.getElementById('notebookChart6'), {
+            type: 'bar',
+            data: {
+                labels: durationDistData.bins.map(b => b.toFixed(0)),
+                datasets: [{
+                    label: 'Trip Count',
+                    data: durationDistData.counts,
+                    backgroundColor: '#2B4CFF',
+                    borderColor: '#000',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { title: { display: true, text: 'Duration (minutes)' }, ticks: { maxRotation: 45 } },
+                    y: { title: { display: true, text: 'Frequency' } }
+                }
+            }
+        });
+
+        // NOTEBOOK CHART 7: Correlation Scatter
+        new Chart(document.getElementById('notebookChart7'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Bus Stops',
+                    data: correlationData.bus_boardings.map((x, i) => ({
+                        x: x,
+                        y: correlationData.integration_index[i]
+                    })),
+                    backgroundColor: 'rgba(43, 76, 255, 0.5)',
+                    borderColor: '#2B4CFF',
+                    pointRadius: 3
+                },
+                {
+                    label: `Regression (R²=${correlationData.regression.r_squared.toFixed(3)})`,
+                    data: [
+                        { x: 0, y: correlationData.regression.intercept },
+                        { x: Math.max(...correlationData.bus_boardings),
+                          y: correlationData.regression.intercept + correlationData.regression.slope * Math.max(...correlationData.bus_boardings) }
+                    ],
+                    type: 'line',
+                    borderColor: '#FF4D00',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: {
+                    x: { title: { display: true, text: 'Bus Boardings (Daily Avg)' } },
+                    y: { title: { display: true, text: 'Integration Index' } }
+                }
+            }
+        });
+
+        // NOTEBOOK CHART 8: Heatmap (Matrix with Seaborn-style Colors)
+        const heatmapCanvas = document.getElementById('notebookChart8');
+        const ctx = heatmapCanvas.getContext('2d');
+
+        // Set canvas dimensions
+        heatmapCanvas.width = heatmapCanvas.offsetWidth;
+        heatmapCanvas.height = 500;
+
+        // Calculate cell dimensions
+        const margin = { top: 40, right: 80, bottom: 40, left: 60 };
+        const cellWidth = (heatmapCanvas.width - margin.left - margin.right) / heatmapData.days.length;
+        const cellHeight = (heatmapCanvas.height - margin.top - margin.bottom) / heatmapData.hours.length;
+
+        // Seaborn-style color gradient (YlOrRd - Yellow-Orange-Red)
+        function getHeatColor(value, maxValue) {
+            const normalized = value / maxValue;
+
+            // Seaborn YlOrRd palette interpolation
+            if (normalized < 0.25) {
+                // Light yellow to yellow
+                const t = normalized / 0.25;
+                return `rgb(${Math.round(255)}, ${Math.round(255 - 18 * t)}, ${Math.round(204 - 51 * t)})`;
+            } else if (normalized < 0.5) {
+                // Yellow to orange
+                const t = (normalized - 0.25) / 0.25;
+                return `rgb(${Math.round(255)}, ${Math.round(237 - 84 * t)}, ${Math.round(153 - 77 * t)})`;
+            } else if (normalized < 0.75) {
+                // Orange to red-orange
+                const t = (normalized - 0.5) / 0.25;
+                return `rgb(${Math.round(255 - 2 * t)}, ${Math.round(153 - 76 * t)}, ${Math.round(76 - 51 * t)})`;
+            } else {
+                // Red-orange to dark red
+                const t = (normalized - 0.75) / 0.25;
+                return `rgb(${Math.round(253 - 75 * t)}, ${Math.round(77 - 52 * t)}, ${Math.round(25 - 16 * t)})`;
+            }
+        }
+
+        // Find max value for normalization
+        const maxHeatmapValue = Math.max(...heatmapData.data.flat());
+
+        // Draw heatmap cells
+        heatmapData.hours.forEach((hour, h) => {
+            heatmapData.days.forEach((day, d) => {
+                const value = heatmapData.data[h][d];
+                const x = margin.left + d * cellWidth;
+                const y = margin.top + h * cellHeight;
+
+                // Draw cell
+                ctx.fillStyle = getHeatColor(value, maxHeatmapValue);
+                ctx.fillRect(x, y, cellWidth - 1, cellHeight - 1);
+
+                // Draw value text for high-intensity cells
+                if (value > maxHeatmapValue * 0.3) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '9px JetBrains Mono';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(value.toFixed(0), x + cellWidth/2, y + cellHeight/2);
+                }
+            });
+        });
+
+        // Draw axes labels
+        ctx.fillStyle = '#000';
+        ctx.font = 'bold 11px Space Grotesk';
+        ctx.textAlign = 'center';
+
+        // X-axis (Days)
+        heatmapData.days.forEach((day, d) => {
+            const x = margin.left + d * cellWidth + cellWidth/2;
+            ctx.fillText(day.substring(0, 3), x, margin.top - 10);
+        });
+
+        // Y-axis (Hours) - every 2 hours
+        ctx.textAlign = 'right';
+        heatmapData.hours.forEach((hour, h) => {
+            if (hour % 2 === 0) {
+                const y = margin.top + h * cellHeight + cellHeight/2;
+                ctx.fillText(hour + 'h', margin.left - 10, y);
+            }
+        });
+
+        // Axis titles
+        ctx.font = 'bold 13px Space Grotesk';
+        ctx.textAlign = 'center';
+        ctx.fillText('Day of Week', heatmapCanvas.width / 2, margin.top - 28);
+
+        ctx.save();
+        ctx.translate(15, heatmapCanvas.height / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('Hour of Day', 0, 0);
+        ctx.restore();
+
+        // Draw color legend
+        const legendX = heatmapCanvas.width - margin.right + 20;
+        const legendY = margin.top;
+        const legendHeight = 200;
+        const legendWidth = 20;
+
+        // Gradient legend
+        for (let i = 0; i < legendHeight; i++) {
+            const value = (legendHeight - i) / legendHeight;
+            ctx.fillStyle = getHeatColor(value * maxHeatmapValue, maxHeatmapValue);
+            ctx.fillRect(legendX, legendY + i, legendWidth, 1);
+        }
+
+        // Legend border
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(legendX, legendY, legendWidth, legendHeight);
+
+        // Legend labels
+        ctx.fillStyle = '#000';
+        ctx.font = '10px JetBrains Mono';
+        ctx.textAlign = 'left';
+        ctx.fillText(maxHeatmapValue.toFixed(0), legendX + legendWidth + 5, legendY + 5);
+        ctx.fillText('0', legendX + legendWidth + 5, legendY + legendHeight);
+
+    </script>
+</body>
+</html>

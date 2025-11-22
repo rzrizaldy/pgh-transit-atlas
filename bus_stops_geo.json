@@ -1,0 +1,1102 @@
+[
+  {
+    "loc": [
+      40.4433,
+      -80.0003
+    ],
+    "name": "7TH ST AT PENN AVE",
+    "vol": 12570,
+    "integration_score": 3732.8633050306066,
+    "bike_trips_nearby": 22705,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4424,
+      -80.0041
+    ],
+    "name": "STANWIX ST AT PENN AVE FS",
+    "vol": 8860,
+    "integration_score": 575.7445427709595,
+    "bike_trips_nearby": 22486,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4403,
+      -80.0044
+    ],
+    "name": "STANWIX ST AT FOURTH AVE (PPG PLACE)",
+    "vol": 7100,
+    "integration_score": 618.1405317796987,
+    "bike_trips_nearby": 13599,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4403,
+      -80.0006
+    ],
+    "name": "WOOD ST BTW FORBES AVE & FIFTH AVE",
+    "vol": 7050,
+    "integration_score": 231.177909867477,
+    "bike_trips_nearby": 22486,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.3413,
+      -79.9448
+    ],
+    "name": "WALMART DRVWY AT SHELTER (WEST MIFFLIN)",
+    "vol": 6430,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4418,
+      -79.9996
+    ],
+    "name": "WOOD ST AT SIXTH AVE",
+    "vol": 5760,
+    "integration_score": 321.85404508176475,
+    "bike_trips_nearby": 16044,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4419,
+      -79.9584
+    ],
+    "name": "FIFTH AVE AT ATWOOD STATION",
+    "vol": 5670,
+    "integration_score": 708.8445995032015,
+    "bike_trips_nearby": 140981,
+    "hood": "West Oakland"
+  },
+  {
+    "loc": [
+      40.4418,
+      -80.0021
+    ],
+    "name": "LIBERTY AVE AT MARKET ST",
+    "vol": 5520,
+    "integration_score": 313.69802601214485,
+    "bike_trips_nearby": 22486,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4614,
+      -79.9246
+    ],
+    "name": "PENN AVE AT HIGHLAND AVE",
+    "vol": 5290,
+    "integration_score": 399.9424739945672,
+    "bike_trips_nearby": 11878,
+    "hood": "East Liberty"
+  },
+  {
+    "loc": [
+      40.4516,
+      -80.0012
+    ],
+    "name": "CEDAR AVE OPP PRESSLEY ST",
+    "vol": 4900,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Allegheny Center"
+  },
+  {
+    "loc": [
+      40.4417,
+      -79.9976
+    ],
+    "name": "SMITHFIELD ST AT SIXTH AVE",
+    "vol": 4480,
+    "integration_score": 134.94707608303963,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4425,
+      -79.9994
+    ],
+    "name": "LIBERTY AVE AT WOOD ST",
+    "vol": 4240,
+    "integration_score": 380.96838473664644,
+    "bike_trips_nearby": 22705,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4438,
+      -79.9949
+    ],
+    "name": "LIBERTY AVE AT 10TH ST NS",
+    "vol": 4190,
+    "integration_score": 229.0640661098502,
+    "bike_trips_nearby": 6661,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4153,
+      -79.8791
+    ],
+    "name": "EAST BUSWAY AT SWISSVALE STATION A",
+    "vol": 4140,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4428,
+      -79.9981
+    ],
+    "name": "LIBERTY AVE OPP 9TH ST",
+    "vol": 4140,
+    "integration_score": 183.3546710079592,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.457,
+      -79.9347
+    ],
+    "name": "CENTRE AVE AT NEGLEY AVE (MARKET DISTRICT)",
+    "vol": 4050,
+    "integration_score": 719.7596853117278,
+    "bike_trips_nearby": 14601,
+    "hood": "Shadyside"
+  },
+  {
+    "loc": [
+      40.4615,
+      -79.9251
+    ],
+    "name": "PENN AVE AT HIGHLAND AVE",
+    "vol": 3950,
+    "integration_score": 548.8998307010775,
+    "bike_trips_nearby": 11878,
+    "hood": "East Liberty"
+  },
+  {
+    "loc": [
+      40.4062,
+      -79.9328
+    ],
+    "name": "JOHNSTON AVE AT ROSELLE CT FS",
+    "vol": 3810,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Glen Hazel"
+  },
+  {
+    "loc": [
+      40.4062,
+      -79.9327
+    ],
+    "name": "JOHNSTON AVE OPP ROSELLE CT",
+    "vol": 3760,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Glen Hazel"
+  },
+  {
+    "loc": [
+      40.4515,
+      -80.001
+    ],
+    "name": "CEDAR AVE AT PRESSLEY ST",
+    "vol": 3710,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "East Allegheny"
+  },
+  {
+    "loc": [
+      40.4416,
+      -79.9983
+    ],
+    "name": "SIXTH AVE AT SMITHFIELD ST",
+    "vol": 3670,
+    "integration_score": 132.49805683296137,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4145,
+      -79.8552
+    ],
+    "name": "BRADDOCK HILLS SHPG CTR AT GIANT EAGLE",
+    "vol": 3620,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4115,
+      -79.9083
+    ],
+    "name": "GIANT EAGLE DR AT DRUG STORE",
+    "vol": 3620,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4304,
+      -79.9772
+    ],
+    "name": "WHARTON ST AT S 20TH ST",
+    "vol": 3570,
+    "integration_score": 95.55983465658109,
+    "bike_trips_nearby": 5826,
+    "hood": "South Side Flats"
+  },
+  {
+    "loc": [
+      40.4429,
+      -80.0002
+    ],
+    "name": "7TH ST AT PENN AVE FS",
+    "vol": 3520,
+    "integration_score": 694.2681073579928,
+    "bike_trips_nearby": 22705,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.3877,
+      -79.8235
+    ],
+    "name": "WALMART AT SHELTER (N VERSAILLES)",
+    "vol": 3480,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.461,
+      -79.9236
+    ],
+    "name": "PENN AVE AT SHERIDAN AVE",
+    "vol": 3380,
+    "integration_score": 130.81404469270706,
+    "bike_trips_nearby": 11878,
+    "hood": "East Liberty"
+  },
+  {
+    "loc": [
+      40.442,
+      -80.0016
+    ],
+    "name": "LIBERTY AVE AT 6TH ST",
+    "vol": 3380,
+    "integration_score": 147.3247647401956,
+    "bike_trips_nearby": 22486,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4413,
+      -80.005
+    ],
+    "name": "LIBERTY AVE AT GATEWAY #4",
+    "vol": 3330,
+    "integration_score": 1276.9502315479622,
+    "bike_trips_nearby": 13599,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4432,
+      -79.9807
+    ],
+    "name": "CENTRE AVE AT DINWIDDIE ST",
+    "vol": 3240,
+    "integration_score": 230.97494127064104,
+    "bike_trips_nearby": 2394,
+    "hood": "Crawford-Roberts"
+  },
+  {
+    "loc": [
+      40.4877,
+      -79.894
+    ],
+    "name": "WATERWORKS MALL AT GIANT EAGLE",
+    "vol": 3190,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Lincoln-Lemington-Belmar"
+  },
+  {
+    "loc": [
+      40.4876,
+      -79.8938
+    ],
+    "name": "WATERWORKS MALL OPP GIANT EAGLE",
+    "vol": 3190,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Lincoln-Lemington-Belmar"
+  },
+  {
+    "loc": [
+      40.4391,
+      -80.0015
+    ],
+    "name": "WOOD ST AT THIRD AVE FS",
+    "vol": 3100,
+    "integration_score": 107.77217571067003,
+    "bike_trips_nearby": 13599,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4371,
+      -80.0017
+    ],
+    "name": "FT PITT BLVD AT SMITHFIELD ST FS",
+    "vol": 3050,
+    "integration_score": 58.33062266526031,
+    "bike_trips_nearby": 4991,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4286,
+      -79.9761
+    ],
+    "name": "E CARSON ST AT S 21ST ST",
+    "vol": 2810,
+    "integration_score": 130.57942361971863,
+    "bike_trips_nearby": 5826,
+    "hood": "South Side Flats"
+  },
+  {
+    "loc": [
+      40.4319,
+      -80.0033
+    ],
+    "name": "E CARSON ST OPP STATION SQUARE STATION",
+    "vol": 2810,
+    "integration_score": 209.4984923658244,
+    "bike_trips_nearby": 5652,
+    "hood": "South Shore"
+  },
+  {
+    "loc": [
+      40.4595,
+      -79.9225
+    ],
+    "name": "EAST BUSWAY AT EAST LIBERTY STATION A",
+    "vol": 2620,
+    "integration_score": 371.37245983194435,
+    "bike_trips_nearby": 11878,
+    "hood": "Shadyside"
+  },
+  {
+    "loc": [
+      40.5167,
+      -80.0387
+    ],
+    "name": "WEST VIEW PLAZA FIRE LANE AT GIANT EAGLE",
+    "vol": 2620,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4421,
+      -80.0014
+    ],
+    "name": "LIBERTY AVE AT 6TH ST NS (SHELTER)",
+    "vol": 2620,
+    "integration_score": 127.59848730382562,
+    "bike_trips_nearby": 22486,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.3839,
+      -79.8684
+    ],
+    "name": "KENNYWOOD MALL FIRE LANE AT GIANT EAGLE",
+    "vol": 2620,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4433,
+      -79.9565
+    ],
+    "name": "FIFTH AVE AT THACKERAY AVE",
+    "vol": 2570,
+    "integration_score": 173.3044851303374,
+    "bike_trips_nearby": 114020,
+    "hood": "North Oakland"
+  },
+  {
+    "loc": [
+      40.4408,
+      -80.0718
+    ],
+    "name": "CRAFTON INGRAM SHOPPING CENTER AT GIANT EAGLE",
+    "vol": 2480,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.438,
+      -79.9638
+    ],
+    "name": "FIFTH AVE OPP CRAFT AVE (CARLOW UNIV)",
+    "vol": 2430,
+    "integration_score": 61.174414583142834,
+    "bike_trips_nearby": 26961,
+    "hood": "West Oakland"
+  },
+  {
+    "loc": [
+      40.4594,
+      -79.9231
+    ],
+    "name": "EAST BUSWAY AT EAST LIBERTY STATION C",
+    "vol": 2430,
+    "integration_score": 182.51493593481354,
+    "bike_trips_nearby": 11878,
+    "hood": "Shadyside"
+  },
+  {
+    "loc": [
+      40.4418,
+      -80.0025
+    ],
+    "name": "LIBERTY AVE AT FIFTH AVE",
+    "vol": 2380,
+    "integration_score": 164.12265251928366,
+    "bike_trips_nearby": 22486,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4425,
+      -79.9998
+    ],
+    "name": "LIBERTY AVE AT 7TH ST (CLARK BLDG)",
+    "vol": 2380,
+    "integration_score": 258.02364408854504,
+    "bike_trips_nearby": 22705,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4574,
+      -79.9339
+    ],
+    "name": "CENTRE AVE AT NEGLEY AVE",
+    "vol": 2330,
+    "integration_score": 458.54659602288325,
+    "bike_trips_nearby": 14601,
+    "hood": "East Liberty"
+  },
+  {
+    "loc": [
+      40.4467,
+      -79.9604
+    ],
+    "name": "VA HOSPITAL TRANSIT LOOP AT SHELTER",
+    "vol": 2330,
+    "integration_score": 59.69825807664102,
+    "bike_trips_nearby": 31665,
+    "hood": "Terrace Village"
+  },
+  {
+    "loc": [
+      40.4402,
+      -79.9986
+    ],
+    "name": "SMITHFIELD ST AT FIFTH AVE",
+    "vol": 2330,
+    "integration_score": 60.9257601528918,
+    "bike_trips_nearby": 13510,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.388,
+      -80.0936
+    ],
+    "name": "RACEWAY FIRELANE AT SHOP N SAVE",
+    "vol": 2240,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4414,
+      -79.9976
+    ],
+    "name": "SIXTH AVE AT SMITHFIELD ST",
+    "vol": 2190,
+    "integration_score": 62.14667784302123,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.455,
+      -80.0212
+    ],
+    "name": "PENNSYLVANIA AVE AT BIDWELL ST",
+    "vol": 2140,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Manchester"
+  },
+  {
+    "loc": [
+      40.4377,
+      -79.9997
+    ],
+    "name": "BLVD OF ALLIES AT CHERRY WAY FS",
+    "vol": 2140,
+    "integration_score": 63.39220179431082,
+    "bike_trips_nearby": 9614,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.421,
+      -80.006
+    ],
+    "name": "SHJ BUS TURNAROUND SHELTER",
+    "vol": 2140,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Mount Washington"
+  },
+  {
+    "loc": [
+      40.4395,
+      -79.9617
+    ],
+    "name": "FIFTH AVE AT CHESTERFIELD RD",
+    "vol": 2100,
+    "integration_score": 129.52071341136698,
+    "bike_trips_nearby": 26961,
+    "hood": "West Oakland"
+  },
+  {
+    "loc": [
+      40.4287,
+      -79.9807
+    ],
+    "name": "E CARSON ST AT S 18TH ST",
+    "vol": 2100,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "South Side Flats"
+  },
+  {
+    "loc": [
+      40.4457,
+      -79.9531
+    ],
+    "name": "FIFTH AVE AT TENNYSON AVE",
+    "vol": 2050,
+    "integration_score": 98.44926374624103,
+    "bike_trips_nearby": 69504,
+    "hood": "North Oakland"
+  },
+  {
+    "loc": [
+      40.4602,
+      -79.9215
+    ],
+    "name": "PENN AVE AT EASTSIDE III DR",
+    "vol": 2050,
+    "integration_score": 152.90516165835626,
+    "bike_trips_nearby": 11878,
+    "hood": "Shadyside"
+  },
+  {
+    "loc": [
+      40.4401,
+      -79.9984
+    ],
+    "name": "FIFTH AVE AT SMITHFIELD ST",
+    "vol": 2050,
+    "integration_score": 57.16949464234996,
+    "bike_trips_nearby": 13510,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4285,
+      -79.9805
+    ],
+    "name": "S 18TH ST AT E CARSON ST",
+    "vol": 2050,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "South Side Flats"
+  },
+  {
+    "loc": [
+      40.4679,
+      -80.0972
+    ],
+    "name": "KENNEDY CTR GIANT EAGLE",
+    "vol": 2050,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4421,
+      -79.9579
+    ],
+    "name": "FIFTH AVE AT OAKLAND AVE",
+    "vol": 2000,
+    "integration_score": 675.55296085307,
+    "bike_trips_nearby": 140981,
+    "hood": "Central Oakland"
+  },
+  {
+    "loc": [
+      40.3523,
+      -79.8565
+    ],
+    "name": "LYSLE BLVD OPP COURSIN ST",
+    "vol": 2000,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4145,
+      -79.8532
+    ],
+    "name": "BRADDOCK HILLS SHPG CTR AT PROPEL SCHOOL",
+    "vol": 1950,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4392,
+      -79.9962
+    ],
+    "name": "FIFTH AVE AT GRANT ST NS",
+    "vol": 1900,
+    "integration_score": 102.91086219405334,
+    "bike_trips_nearby": 9614,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4438,
+      -79.9922
+    ],
+    "name": "EAST BUSWAY AT PENN STATION A",
+    "vol": 1900,
+    "integration_score": 37.99262758470496,
+    "bike_trips_nearby": 6661,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.444,
+      -79.9922
+    ],
+    "name": "EAST BUSWAY AT PENN STATION C",
+    "vol": 1900,
+    "integration_score": 38.36138518703706,
+    "bike_trips_nearby": 6661,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4517,
+      -79.9518
+    ],
+    "name": "CRAIG ST AT CENTRE AVE",
+    "vol": 1810,
+    "integration_score": 140.01209358553808,
+    "bike_trips_nearby": 47471,
+    "hood": "North Oakland"
+  },
+  {
+    "loc": [
+      40.4632,
+      -79.931
+    ],
+    "name": "NEGLEY AVE AT PENN AVE FS",
+    "vol": 1810,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Friendship"
+  },
+  {
+    "loc": [
+      40.439,
+      -79.9958
+    ],
+    "name": "FIFTH AVE AT ROSS ST",
+    "vol": 1810,
+    "integration_score": 101.94946870305601,
+    "bike_trips_nearby": 9614,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4444,
+      -80.0007
+    ],
+    "name": "7TH ST AT FT DUQUESNE BLVD",
+    "vol": 1810,
+    "integration_score": 121.29783204617543,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4428,
+      -79.9986
+    ],
+    "name": "LIBERTY AVE AT TITO WAY",
+    "vol": 1810,
+    "integration_score": 105.898093155497,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4435,
+      -79.9954
+    ],
+    "name": "LIBERTY AVE AT WILLIAM PENN PL",
+    "vol": 1810,
+    "integration_score": 117.87762427594377,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4421,
+      -79.9993
+    ],
+    "name": "SIXTH AVE AT WOOD ST",
+    "vol": 1760,
+    "integration_score": 113.9274321565625,
+    "bike_trips_nearby": 22705,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4526,
+      -80.0529
+    ],
+    "name": "WEST BUSWAY AT SHERADEN STATION C",
+    "vol": 1760,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Sheraden"
+  },
+  {
+    "loc": [
+      40.4462,
+      -79.8885
+    ],
+    "name": "EAST BUSWAY AT WILKINSBURG STATION A",
+    "vol": 1710,
+    "integration_score": 138.1644241302337,
+    "bike_trips_nearby": 649,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4463,
+      -79.8883
+    ],
+    "name": "EAST BUSWAY AT WILKINSBURG STATION D",
+    "vol": 1710,
+    "integration_score": 142.8356077983558,
+    "bike_trips_nearby": 649,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4478,
+      -80.0179
+    ],
+    "name": "ALLEGHENY AVE AT REEDSDALE ST FS",
+    "vol": 1710,
+    "integration_score": 239.21812491202147,
+    "bike_trips_nearby": 2849,
+    "hood": "Chateau"
+  },
+  {
+    "loc": [
+      40.4089,
+      -79.9437
+    ],
+    "name": "SECOND AVE AT GLEN CALADH ST",
+    "vol": 1710,
+    "integration_score": 973.0514666894144,
+    "bike_trips_nearby": 295,
+    "hood": "Hazelwood"
+  },
+  {
+    "loc": [
+      40.4465,
+      -79.8884
+    ],
+    "name": "EAST BUSWAY AT WILKINSBURG STATION C",
+    "vol": 1670,
+    "integration_score": 204.97027460695426,
+    "bike_trips_nearby": 649,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4783,
+      -79.9689
+    ],
+    "name": "EAST OHIO ST AT GRANT AVE",
+    "vol": 1670,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4439,
+      -79.9985
+    ],
+    "name": "9TH ST AT PENN AVE",
+    "vol": 1670,
+    "integration_score": 90.30723774784643,
+    "bike_trips_nearby": 15548,
+    "hood": "Central Business District"
+  },
+  {
+    "loc": [
+      40.4088,
+      -79.9438
+    ],
+    "name": "SECOND AVE AT TECUMSEH ST",
+    "vol": 1670,
+    "integration_score": 660.7801196744206,
+    "bike_trips_nearby": 295,
+    "hood": "Hazelwood"
+  },
+  {
+    "loc": [
+      40.3522,
+      -79.856
+    ],
+    "name": "LYSLE BLVD AT COURSIN ST FS",
+    "vol": 1670,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4111,
+      -79.9097
+    ],
+    "name": "TARGET DR AT TARGET PERIMETER RD",
+    "vol": 1670,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4015,
+      -80.083
+    ],
+    "name": "WASHINGTON AVE AT FRANKLIN AVE",
+    "vol": 1670,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.441,
+      -79.9577
+    ],
+    "name": "FORBES AVE AT ATWOOD ST",
+    "vol": 1620,
+    "integration_score": 140.6180804547703,
+    "bike_trips_nearby": 109316,
+    "hood": "Central Oakland"
+  },
+  {
+    "loc": [
+      40.4431,
+      -79.9812
+    ],
+    "name": "CENTRE AVE AT HILL HOUSE",
+    "vol": 1620,
+    "integration_score": 231.99329636571528,
+    "bike_trips_nearby": 2394,
+    "hood": "Crawford-Roberts"
+  },
+  {
+    "loc": [
+      40.383,
+      -79.977
+    ],
+    "name": "BROWNSVILLE RD AT STEWART AVE",
+    "vol": 1620,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Carrick"
+  },
+  {
+    "loc": [
+      40.4218,
+      -79.9938
+    ],
+    "name": "WARRINGTON AVE AT ALLEN ST",
+    "vol": 1620,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Allentown"
+  },
+  {
+    "loc": [
+      40.4512,
+      -79.9824
+    ],
+    "name": "LIBERTY AVE AT 21ST ST",
+    "vol": 1570,
+    "integration_score": 122.45070671825398,
+    "bike_trips_nearby": 11664,
+    "hood": "Strip District"
+  },
+  {
+    "loc": [
+      40.4653,
+      -79.9577
+    ],
+    "name": "PENN AVE AT 40TH ST",
+    "vol": 1570,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Central Lawrenceville"
+  },
+  {
+    "loc": [
+      40.5641,
+      -79.7661
+    ],
+    "name": "4TH AVE AT CENTRAL CITY PLAZA",
+    "vol": 1570,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Unknown"
+  },
+  {
+    "loc": [
+      40.4553,
+      -80.007
+    ],
+    "name": "NORTH AVE AT FEDERAL ST",
+    "vol": 1570,
+    "integration_score": 947.9205252517605,
+    "bike_trips_nearby": 5163,
+    "hood": "Allegheny Center"
+  },
+  {
+    "loc": [
+      40.4552,
+      -80.0202
+    ],
+    "name": "PENNSYLVANIA AVE AT ALLEGHENY AVE",
+    "vol": 1570,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Manchester"
+  },
+  {
+    "loc": [
+      40.4218,
+      -79.9936
+    ],
+    "name": "WARRINGTON AVE AT ALLEN ST",
+    "vol": 1570,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Allentown"
+  },
+  {
+    "loc": [
+      40.4442,
+      -79.9549
+    ],
+    "name": "FIFTH AVE AT BIGELOW BLVD (PITT)",
+    "vol": 1520,
+    "integration_score": 68.07070444628438,
+    "bike_trips_nearby": 151859,
+    "hood": "North Oakland"
+  },
+  {
+    "loc": [
+      40.4386,
+      -79.9849
+    ],
+    "name": "FIFTH AVE AT PRIDE ST",
+    "vol": 1520,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Crawford-Roberts"
+  },
+  {
+    "loc": [
+      40.4381,
+      -79.9235
+    ],
+    "name": "FORBES AVE AT MURRAY AVE FS",
+    "vol": 1520,
+    "integration_score": 0.0,
+    "bike_trips_nearby": 0,
+    "hood": "Squirrel Hill North"
+  },
+  {
+    "loc": [
+      40.4575,
+      -79.9342
+    ],
+    "name": "NEGLEY AVE AT CENTRE AVE",
+    "vol": 1520,
+    "integration_score": 582.1224357507444,
+    "bike_trips_nearby": 14601,
+    "hood": "Friendship"
+  }
+]

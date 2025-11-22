@@ -1,0 +1,30 @@
+[
+  {
+    "label": "Commuter",
+    "count": 266603,
+    "avg_duration_min": 7.7,
+    "avg_distance_m": 836.0,
+    "peak_hour": 17.7
+  },
+  {
+    "label": "Errand",
+    "count": 87128,
+    "avg_duration_min": 20.1,
+    "avg_distance_m": 3359.0,
+    "peak_hour": 14.8
+  },
+  {
+    "label": "Last-Mile",
+    "count": 182663,
+    "avg_duration_min": 7.0,
+    "avg_distance_m": 910.0,
+    "peak_hour": 9.3
+  },
+  {
+    "label": "Leisure",
+    "count": 20043,
+    "avg_duration_min": 73.2,
+    "avg_distance_m": 737.0,
+    "peak_hour": 14.4
+  }
+]

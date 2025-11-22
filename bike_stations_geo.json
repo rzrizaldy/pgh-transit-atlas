@@ -1,0 +1,542 @@
+[
+  {
+    "loc": [
+      40.4565066778013,
+      -79.9323305943069
+    ],
+    "name": "Pierce St & Summerlea St",
+    "trips": 4766,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4258,
+      -79.9534
+    ],
+    "name": "Eliza Furnace Trail & Swineburne St",
+    "trips": 4516,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4446,
+      -79.9783
+    ],
+    "name": "Centre Ave & Addison St",
+    "trips": 1238,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4564,
+      -79.98
+    ],
+    "name": "Burns White Center at 3 Crossings",
+    "trips": 5077,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.448301,
+      -80.018007
+    ],
+    "name": "Allegheny Station",
+    "trips": 2849,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4446526,
+      -79.9960739
+    ],
+    "name": "10th St & Penn Ave",
+    "trips": 6661,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4595877,
+      -79.9452035
+    ],
+    "name": "Liberty Ave & Gross St",
+    "trips": 6474,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4329,
+      -80.003
+    ],
+    "name": "Glasshouse",
+    "trips": 3556,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.431336,
+      -79.995106
+    ],
+    "name": "South Side Trail & S 4th St",
+    "trips": 3739,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.436055,
+      -79.956827
+    ],
+    "name": "Zulema St & Coltart Ave",
+    "trips": 26080,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.448203,
+      -79.947507
+    ],
+    "name": "Ellsworth Ave & N Neville St",
+    "trips": 9248,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.445117,
+      -79.957118
+    ],
+    "name": "O'Hara St & University Place",
+    "trips": 31665,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.441638,
+      -79.955764
+    ],
+    "name": "S Bouquet Ave & Sennott St",
+    "trips": 56944,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.4542263889049,
+      -79.8975444133529
+    ],
+    "name": "Tioga St & N Homewood Ave",
+    "trips": 605,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.451781,
+      -79.932253
+    ],
+    "name": "Ivy St & Walnut St",
+    "trips": 10826,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4559,
+      -79.9153
+    ],
+    "name": "Penn Ave & Putnam St (Bakery Square)",
+    "trips": 4355,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.462778,
+      -79.950868
+    ],
+    "name": "Taylor St & Liberty Ave",
+    "trips": 6996,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4518,
+      -79.9833
+    ],
+    "name": "21st St & Penn Ave",
+    "trips": 6096,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.470221,
+      -79.96038
+    ],
+    "name": "42nd St & Butler St",
+    "trips": 4421,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4344,
+      -79.9519
+    ],
+    "name": "Boulevard of the Allies & Parkview Ave",
+    "trips": 29538,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.4412,
+      -80.0048
+    ],
+    "name": "Liberty Ave & Stanwix St",
+    "trips": 6442,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4407732,
+      -80.0033121
+    ],
+    "name": "Forbes Ave & Market Square",
+    "trips": 7157,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4458,
+      -80.0091
+    ],
+    "name": "North Shore Trail & Fort Duquesne Bridge",
+    "trips": 7160,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.462,
+      -79.9683
+    ],
+    "name": "Penn Ave & 33rd St",
+    "trips": 4240,
+    "docks": 11
+  },
+  {
+    "loc": [
+      40.4616,
+      -79.9257
+    ],
+    "name": "Penn Ave & S Whitfield St",
+    "trips": 5288,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4279908,
+      -79.9662963999999
+    ],
+    "name": "S 27th St & Sidney St. (Southside Works)",
+    "trips": 12759,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.4338,
+      -80.0047
+    ],
+    "name": "W Station Square Dr & Bessemer Court",
+    "trips": 2096,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4422,
+      -79.9576
+    ],
+    "name": "Fifth Ave & S Bouquet St",
+    "trips": 25411,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.445145301354,
+      -79.9510833862304
+    ],
+    "name": "Filmore St & S Bellefield Ave",
+    "trips": 18202,
+    "docks": 27
+  },
+  {
+    "loc": [
+      40.4591811,
+      -79.9219961
+    ],
+    "name": "Shady Ave & Ellsworth Ave",
+    "trips": 6590,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.435922,
+      -79.997551
+    ],
+    "name": "First Ave & B St",
+    "trips": 4991,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4377006231877,
+      -79.9964806777709
+    ],
+    "name": "Ross St & Fourth Ave",
+    "trips": 4623,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4423713,
+      -79.9516881
+    ],
+    "name": "Schenley Dr & Schenley Dr Ext",
+    "trips": 19637,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.451281,
+      -79.952982
+    ],
+    "name": "N Dithridge St & Centre Ave",
+    "trips": 32846,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4652642,
+      -79.9656519999999
+    ],
+    "name": "Butler St & 36th St",
+    "trips": 3497,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4646,
+      -79.9399
+    ],
+    "name": "Penn Ave & S Pacific Ave",
+    "trips": 3217,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4573163,
+      -79.9343308999999
+    ],
+    "name": "S Negley Ave & Centre Ave",
+    "trips": 9835,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.443591,
+      -79.965456
+    ],
+    "name": "Allequippa St & Darragh St",
+    "trips": 16744,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.4285997029226,
+      -79.9863711512901
+    ],
+    "name": "S 12th St & E Carson St",
+    "trips": 4256,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.443310169091,
+      -79.9999958798892
+    ],
+    "name": "Penn Ave & 7th St",
+    "trips": 8887,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4292122212107,
+      -79.9745345629074
+    ],
+    "name": "S 22nd St & Sidney St",
+    "trips": 5826,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4088572936115,
+      -79.9436837948181
+    ],
+    "name": "Second Ave & Tecumseh St",
+    "trips": 295,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4134809838224,
+      -79.9482542789794
+    ],
+    "name": "Eliza St & Lytle St",
+    "trips": 472,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.457569790831,
+      -79.9099523342468
+    ],
+    "name": "Hamilton Ave & Fifth Ave",
+    "trips": 776,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4530103612023,
+      -79.8912036932327
+    ],
+    "name": "N Braddock Ave & Hamilton Ave",
+    "trips": 308,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4566220240671,
+      -79.8975031968811
+    ],
+    "name": "Bennett St & N Homewood Ave",
+    "trips": 197,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4496263051758,
+      -79.9859178579666
+    ],
+    "name": "17th St & Penn Ave",
+    "trips": 5568,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.453211,
+      -79.947761
+    ],
+    "name": "Centre Ave & S Millvale Ave",
+    "trips": 14625,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4305127832109,
+      -79.9599889434196
+    ],
+    "name": "Technology Dr & Bates St",
+    "trips": 6569,
+    "docks": 23
+  },
+  {
+    "loc": [
+      40.4379869540702,
+      -79.9537045276977
+    ],
+    "name": "Atwood St & Bates St",
+    "trips": 33995,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4390117551208,
+      -79.9602920330383
+    ],
+    "name": "Coltart Ave & Forbes Ave",
+    "trips": 26961,
+    "docks": 18
+  },
+  {
+    "loc": [
+      40.4483608122211,
+      -79.9782681978561
+    ],
+    "name": "Bedford Ave & Memory Ln",
+    "trips": 886,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4428413514563,
+      -79.9816155947067
+    ],
+    "name": "Centre Ave & Heldman St",
+    "trips": 1156,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4524674541611,
+      -80.0138718403198
+    ],
+    "name": "W Ohio St & Brighton Rd",
+    "trips": 1885,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4564024103846,
+      -80.0153926528312
+    ],
+    "name": "Brighton Rd & Pennsylvania Ave",
+    "trips": 1523,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4670182950645,
+      -79.9352321542121
+    ],
+    "name": "Rosetta St & N Aiken Ave",
+    "trips": 887,
+    "docks": 15
+  },
+  {
+    "loc": [
+      40.4802827313896,
+      -79.9542865670539
+    ],
+    "name": "52nd St & Butler St",
+    "trips": 2637,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4552676644964,
+      -80.0071234024383
+    ],
+    "name": "W North Ave & Federal St",
+    "trips": 5163,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4446540054179,
+      -79.9475354469635
+    ],
+    "name": "Forbes Ave at TCS Hall (CMU Campus)",
+    "trips": 16609,
+    "docks": 19
+  },
+  {
+    "loc": [
+      40.4469075070452,
+      -79.8886448658325
+    ],
+    "name": "Wilkinsburg Park & Ride",
+    "trips": 649,
+    "docks": 19
+  }
+]

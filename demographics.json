@@ -1,0 +1,44 @@
+{
+  "stations": [
+    "Allequippa St & Darragh St",
+    "Atwood St & Bates St",
+    "Boulevard of the Allies & Parkview Ave",
+    "Coltart Ave & Forbes Ave",
+    "Fifth Ave & S Bouquet St",
+    "N Dithridge St & Centre Ave",
+    "O'Hara St & University Place",
+    "S Bouquet Ave & Sennott St",
+    "Schenley Dr & Schenley Dr Ext",
+    "Zulema St & Coltart Ave"
+  ],
+  "rider_types": [
+    "CASUAL",
+    "MEMBER"
+  ],
+  "data": {
+    "CASUAL": [
+      137,
+      303,
+      310,
+      407,
+      413,
+      374,
+      287,
+      630,
+      915,
+      277
+    ],
+    "MEMBER": [
+      16607,
+      33692,
+      29228,
+      26554,
+      24998,
+      32472,
+      27018,
+      56314,
+      18722,
+      25803
+    ]
+  }
+}
