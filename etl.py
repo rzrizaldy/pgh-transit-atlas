@@ -574,6 +574,48 @@ for arch in archetype_labels:
         'peak_hour': round(arch['avg_hour'], 1)
     })
 
+# ============================================================================
+# STATION × ARCHETYPE ANALYSIS
+# ============================================================================
+print("  → Analyzing top stations per archetype...")
+
+# Create archetype label mapping
+archetype_map = {}
+for arch in archetype_labels:
+    archetype_map[arch['cluster']] = arch['label']
+
+trips_clean['archetype_label'] = trips_clean['archetype'].map(archetype_map)
+
+# Get top 3 stations per archetype by percentage
+station_archetype_top = {}
+
+for archetype in ['Commuter', 'Last-Mile', 'Errand', 'Leisure']:
+    # Count trips by station for this archetype
+    station_counts = trips_clean.groupby(['Start Station Name', 'archetype_label']).size().reset_index(name='trips')
+
+    # Get total trips per station
+    station_totals = trips_clean.groupby('Start Station Name').size().reset_index(name='total_trips')
+
+    # Merge to calculate percentages
+    station_archetype_pct = station_counts.merge(station_totals, on='Start Station Name')
+    station_archetype_pct['pct'] = (station_archetype_pct['trips'] / station_archetype_pct['total_trips']) * 100
+
+    # Filter for this archetype only
+    archetype_data = station_archetype_pct[station_archetype_pct['archetype_label'] == archetype]
+
+    # Get top 3 by percentage (must have at least 50 trips for statistical significance)
+    archetype_data = archetype_data[archetype_data['total_trips'] >= 50]
+    top_3 = archetype_data.nlargest(3, 'pct')
+
+    station_archetype_top[archetype] = {
+        'stations': top_3['Start Station Name'].tolist(),
+        'percentages': top_3['pct'].round(1).tolist(),
+        'trip_counts': top_3['trips'].astype(int).tolist(),
+        'total_trips': top_3['total_trips'].astype(int).tolist()
+    }
+
+print(f"    ✓ Top stations per archetype calculated")
+
 # Write JSON files
 output_dir = Path('./processed_data')
 output_dir.mkdir(exist_ok=True)
@@ -624,6 +666,10 @@ print(f"    ✓ Exported daily timeseries to daily_timeseries.json")
 with open(output_dir / 'top_prt_pogoh.json', 'w') as f:
     json.dump(top_prt_pogoh, f, indent=2)
 print(f"    ✓ Exported top PRT-POGOH stops to top_prt_pogoh.json")
+
+with open(output_dir / 'station_archetypes.json', 'w') as f:
+    json.dump(station_archetype_top, f, indent=2)
+print(f"    ✓ Exported station archetypes to station_archetypes.json")
 
 # ============================================================================
 # 8. EXPORT CSV VERSIONS (For Easy Inspection)
@@ -739,7 +785,22 @@ seasonal_heatmap_df.index.name = 'hour'
 seasonal_heatmap_df.to_csv(output_dir / 'heatmap_hour_season.csv')
 print(f"    ✓ Exported heatmap_hour_season.csv ({len(seasonal_heatmap_df)} rows)")
 
-print(f"\n    → Total: 12 JSON + 13 CSV files exported to ./processed_data/")
+# 14. Station Archetypes CSV
+station_arch_rows = []
+for archetype, data in station_archetype_top.items():
+    for i in range(len(data['stations'])):
+        station_arch_rows.append({
+            'archetype': archetype,
+            'station': data['stations'][i],
+            'percentage': data['percentages'][i],
+            'archetype_trips': data['trip_counts'][i],
+            'total_trips': data['total_trips'][i]
+        })
+station_arch_df = pd.DataFrame(station_arch_rows)
+station_arch_df.to_csv(output_dir / 'station_archetypes.csv', index=False)
+print(f"    ✓ Exported station_archetypes.csv ({len(station_arch_df)} rows)")
+
+print(f"\n    → Total: 13 JSON + 14 CSV files exported to ./processed_data/")
 
 # ============================================================================
 # 9. SUMMARY STATISTICS

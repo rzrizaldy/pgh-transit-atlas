@@ -45,6 +45,9 @@ with open(data_dir / 'daily_timeseries.json', 'r') as f:
 with open(data_dir / 'top_prt_pogoh.json', 'r') as f:
     top_prt_pogoh = json.load(f)
 
+with open(data_dir / 'station_archetypes.json', 'r') as f:
+    station_archetypes = json.load(f)
+
 # Write data.js
 with open('data.js', 'w') as f:
     f.write('// PITTSBURGH TRANSIT ATLAS - ENHANCED DATA MODULE\n\n')
@@ -59,7 +62,8 @@ with open('data.js', 'w') as f:
     f.write(f'const heatmapData = {json.dumps(heatmap, indent=2)};\n\n')
     f.write(f'const seasonalHeatmapData = {json.dumps(seasonal_heatmap, indent=2)};\n\n')
     f.write(f'const dailyTimeseriesData = {json.dumps(daily_timeseries, indent=2)};\n\n')
-    f.write(f'const topPrtPogohData = {json.dumps(top_prt_pogoh, indent=2)};\n')
+    f.write(f'const topPrtPogohData = {json.dumps(top_prt_pogoh, indent=2)};\n\n')
+    f.write(f'const stationArchetypesData = {json.dumps(station_archetypes, indent=2)};\n')
 
 print("✓ data.js generated successfully!")
 print(f"  • File size: {len(open('data.js').read()) / 1024:.1f} KB")

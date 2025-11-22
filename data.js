@@ -14734,3 +14734,94 @@ const topPrtPogohData = {
     22705
   ]
 };
+
+const stationArchetypesData = {
+  "Commuter": {
+    "stations": [
+      "Schenley Dr & Schenley Dr Ext",
+      "Forbes Ave & Schenley Dr",
+      "Forbes Ave at TCS Hall (CMU Campus)"
+    ],
+    "percentages": [
+      64.8,
+      63.3,
+      61.2
+    ],
+    "trip_counts": [
+      12721,
+      3925,
+      10168
+    ],
+    "total_trips": [
+      19637,
+      6196,
+      16607
+    ]
+  },
+  "Last-Mile": {
+    "stations": [
+      "Boulevard of the Allies & Parkview Ave",
+      "S Millvale Ave & Centre Ave",
+      "Allequippa St & Darragh St"
+    ],
+    "percentages": [
+      46.9,
+      43.4,
+      42.0
+    ],
+    "trip_counts": [
+      13859,
+      4045,
+      7035
+    ],
+    "total_trips": [
+      29538,
+      9310,
+      16744
+    ]
+  },
+  "Errand": {
+    "stations": [
+      "Wilkinsburg Park & Ride",
+      "Second Ave & Tecumseh St",
+      "Shady Ave & Ellsworth Ave"
+    ],
+    "percentages": [
+      68.4,
+      61.4,
+      56.5
+    ],
+    "trip_counts": [
+      444,
+      181,
+      3724
+    ],
+    "total_trips": [
+      649,
+      295,
+      6590
+    ]
+  },
+  "Leisure": {
+    "stations": [
+      "South Side Trail & S 4th St",
+      "Liberty Ave & Stanwix St",
+      "W Ohio St & Brighton Rd"
+    ],
+    "percentages": [
+      19.0,
+      18.9,
+      18.3
+    ],
+    "trip_counts": [
+      712,
+      1218,
+      344
+    ],
+    "total_trips": [
+      3739,
+      6438,
+      1883
+    ]
+  }
+};
