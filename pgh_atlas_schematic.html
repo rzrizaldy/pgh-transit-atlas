@@ -603,7 +603,35 @@
                     </div>
                 </div>
 
-                <!-- SECTION 7: POLICY RECOMMENDATIONS -->
+                <!-- SECTION 7: INTEGRATION LEAGUE TABLE -->
+                <div class="viz-section">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="panel chart-panel">
+                            <div class="panel-header"><span>FIG 9. TOP NEIGHBORHOODS BY BUS-BIKE INTEGRATION</span></div>
+                            <div style="padding:20px; min-height:400px;">
+                                <canvas id="neighborhoodIntegrationChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="panel chart-panel">
+                            <div class="panel-header"><span>FIG 10. INTEGRATION INDEX DISTRIBUTION (Top 15 Stops)</span></div>
+                            <div style="padding:20px; min-height:400px;">
+                                <canvas id="topIndexChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel insight-panel">
+                        <div class="insight-header">🏆 The Integration Leaderboard</div>
+                        <div class="insight-body">
+                            <p><strong>What This Measures:</strong> The <em>Integration Index</em> rewards bus stops that have high ridership AND high nearby bike turnover.</p>
+                            <p><strong>Winner:</strong> <span class="metric-highlight">Central Business District</span> dominates due to density. <span class="metric-highlight">Strip District</span> and <span class="metric-highlight">North Shore</span> follow, showing the value of flat terrain and bike lanes.</p>
+                            <p><strong>Top Stop:</strong> <span class="metric-highlight">7th St @ Penn Ave</span> is the "Golden Node" of the network, proving that bus lanes + protected bike lanes = maximum multimodal flow.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 8: POLICY RECOMMENDATIONS (MOVED TO BOTTOM) -->
                 <div class="viz-section">
                     <div class="panel" style="padding:30px; background:#fff9f5;">
                         <h2 style="font-family:'Space Grotesk'; font-size:1.8rem; border-bottom:4px solid var(--alert-pink); padding-bottom:10px; margin-bottom:25px;">
@@ -647,34 +675,6 @@
                                 <span class="action-tag">TOURISM</span>
                                 <span class="action-tag">2026 EXPANSION</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SECTION 8: INTEGRATION LEAGUE TABLE (NEW) -->
-                <div class="viz-section">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="panel chart-panel">
-                            <div class="panel-header"><span>FIG 9. TOP NEIGHBORHOODS BY BUS-BIKE INTEGRATION</span></div>
-                            <div style="padding:20px; min-height:400px;">
-                                <canvas id="neighborhoodIntegrationChart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <div class="panel chart-panel">
-                            <div class="panel-header"><span>FIG 10. INTEGRATION INDEX DISTRIBUTION (Top 15 Stops)</span></div>
-                            <div style="padding:20px; min-height:400px;">
-                                <canvas id="topIndexChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="panel insight-panel">
-                        <div class="insight-header">🏆 The Integration Leaderboard</div>
-                        <div class="insight-body">
-                            <p><strong>What This Measures:</strong> The <em>Integration Index</em> rewards bus stops that have high ridership AND high nearby bike turnover.</p>
-                            <p><strong>Winner:</strong> <span class="metric-highlight">Central Business District</span> dominates due to density. <span class="metric-highlight">Strip District</span> and <span class="metric-highlight">North Shore</span> follow, showing the value of flat terrain and bike lanes.</p>
-                            <p><strong>Top Stop:</strong> <span class="metric-highlight">7th St @ Penn Ave</span> is the "Golden Node" of the network, proving that bus lanes + protected bike lanes = maximum multimodal flow.</p>
                         </div>
                     </div>
                 </div>
@@ -825,30 +825,12 @@
                         <strong>Result: R² = 0.372 (p < 0.001)</strong><br>
                         There is a <strong>moderate positive correlation</strong>. While bus volume is a predictor, it's not the <em>only</em> factor. Bike infrastructure (lanes) and topography play huge unmeasured roles.
                     </div>
-                    <div class="nb-output" style="padding:10px;">
-                        <canvas id="notebookChart7" style="max-height:450px;"></canvas>
+                    <div class="nb-output" style="padding:20px;">
+                        <canvas id="notebookChart7" style="width:100%; height:600px;"></canvas>
                     </div>
                 </div>
 
-                <!-- CELL 9 -->
-                <div class="nb-cell">
-                    <div class="nb-md">
-                        <h3>Hourly × Seasonal Heatmap</h3>
-                        <p><strong>New in v2.4:</strong> Replaced simple day-averages with a full <strong>Season × Hour</strong> matrix. This reveals the "Winter Gap" much more clearly than daily aggregates.</p>
-                    </div>
-                    <div class="nb-input">
-                        <span class="comment"># 9. HEATMAP: HOUR × SEASON (Matrix)</span><br>
-                        seasonal_heatmap = trips.groupby(['season', 'hour']).size()<br>
-                        pivot = seasonal_heatmap.pivot(index='hour', columns='season')
-                    </div>
-                    <div class="nb-output">
-                        <strong>Pattern:</strong> Fall 5pm is the absolute peak. Winter midday is 60% lower.<br>
-                        Action: Confirms need for Policy #2 (Winter Gear).
-                    </div>
-                    <div class="nb-output" style="padding:10px;">
-                        <canvas id="notebookChart8" style="width:100%; height:500px;"></canvas>
-                    </div>
-                </div>
+                <!-- CELL 9: Combined into CELL 5 above (Seasonal Heatmap) -->
 
                 <!-- CELL 10 -->
                 <div class="nb-cell">
@@ -860,12 +842,15 @@
                         <span class="comment"># 10. FINDING "LAST MILE LEADERS"</span><br>
                         bus_stops_near_pogoh = bus_stops[bus_stops['bike_trips_nearby'] > 0]<br>
                         top_10 = bus_stops_near_pogoh.nlargest(10, 'bus_boardings')<br>
-                        plot(top_10['boardings'], top_10['bike_trips'])
+                        print(top_10[['stop_name', 'bus_boardings', 'bike_trips_nearby']])
                     </div>
                     <div class="nb-output">
-                        <strong>#1 Integrated Node: 7TH ST AT PENN AVE</strong><br>
-                        High bus volume + High bike turnover = Proven multimodal success.<br>
-                        Gap: Stops like Forbes & Morewood have high bus volume but lower bike usage (Opportunity).
+                        <strong>Top 10 PRT Stops Near POGOH Stations:</strong><br>
+                        <div id="top10-list" style="font-family: 'JetBrains Mono'; font-size: 0.85rem; margin-top: 10px; line-height: 1.8;">
+                            Loading...
+                        </div>
+                        <br>
+                        <strong>Key Finding:</strong> #1 Node shows proven multimodal success. Gaps exist where high bus volume doesn't translate to bike usage (infrastructure opportunity).
                     </div>
                 </div>
 
@@ -896,22 +881,42 @@
             }
         }
 
-        // --- POPULATE SIDEBAR METRICS FROM REAL DATA ---
+        // --- POPULATE SIDEBAR METRICS FROM REAL DATA (if elements exist) ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Calculate average integration score
-            const avgIntegration = busStopsData.reduce((sum, stop) => sum + stop.integration_score, 0) / busStopsData.length;
-            const normalizedScore = Math.min(avgIntegration * 100, 10).toFixed(1); // Normalize to 0-10 scale
-            document.getElementById('integration-score').textContent = normalizedScore + '/10';
+            // Only populate if sidebar elements exist (removed from current design)
+            if(document.getElementById('integration-score')) {
+                const avgIntegration = busStopsData.reduce((sum, stop) => sum + stop.integration_score, 0) / busStopsData.length;
+                const normalizedScore = Math.min(avgIntegration * 100, 10).toFixed(1);
+                document.getElementById('integration-score').textContent = normalizedScore + '/10';
+            }
 
-            // Find top integrated stop
-            const topStop = busStopsData.reduce((max, stop) => stop.integration_score > max.integration_score ? stop : max);
-            document.getElementById('integration-context').innerHTML =
-                `<span style="color:var(--terminal-green)">Top: ${topStop.name}</span><br>High overlap in Downtown, Gaps in outer neighborhoods.`;
+            if(document.getElementById('integration-context')) {
+                const topStop = busStopsData.reduce((max, stop) => stop.integration_score > max.integration_score ? stop : max);
+                document.getElementById('integration-context').innerHTML =
+                    `<span style="color:var(--terminal-green)">Top: ${topStop.name}</span><br>High overlap in Downtown, Gaps in outer neighborhoods.`;
+            }
 
-            // Get Last-Mile trip count from archetypes
-            const lastMileArch = archetypesData.find(a => a.label === 'Last-Mile');
-            if (lastMileArch) {
-                document.getElementById('lastmile-trips').textContent = lastMileArch.count.toLocaleString();
+            if(document.getElementById('lastmile-trips')) {
+                const lastMileArch = archetypesData.find(a => a.label === 'Last-Mile');
+                if (lastMileArch) {
+                    document.getElementById('lastmile-trips').textContent = lastMileArch.count.toLocaleString();
+                }
+            }
+
+            // Populate Top 10 list in notebook
+            if(document.getElementById('top10-list') && topPrtPogohData) {
+                let listHTML = '<table style="width:100%; border-collapse: collapse;">';
+                listHTML += '<tr style="border-bottom: 1px solid #ccc; font-weight: bold;"><td>#</td><td>Stop Name</td><td style="text-align:right;">Bus Boardings</td><td style="text-align:right;">Bike Trips (400m)</td></tr>';
+                topPrtPogohData.stops.forEach((stop, idx) => {
+                    listHTML += `<tr style="border-bottom: 1px solid #eee;">
+                        <td>${idx + 1}.</td>
+                        <td>${stop}</td>
+                        <td style="text-align:right; color: #2B4CFF; font-weight: bold;">${topPrtPogohData.bus_boardings[idx].toLocaleString()}</td>
+                        <td style="text-align:right; color: #FF2B8C; font-weight: bold;">${topPrtPogohData.bike_trips_nearby[idx].toLocaleString()}</td>
+                    </tr>`;
+                });
+                listHTML += '</table>';
+                document.getElementById('top10-list').innerHTML = listHTML;
             }
         });
 
@@ -1380,8 +1385,25 @@
                 'east-liberty': ['East Liberty', 'Larimer', 'Homewood North', 'Homewood South', 'Homewood West', 'Lincoln-Lemington-Belmar']
             };
 
+            // Apply corridor filter to bus stops
             if (corridorFilter !== 'system' && hoods[corridorFilter]) {
                 filteredStops = busStopsData.filter(s => hoods[corridorFilter].includes(s.hood));
+
+                // Also filter POGOH stations by proximity to filtered bus stops
+                // Keep only POGOH stations within the same geographic area
+                const filteredStopCoords = filteredStops.map(s => s.loc);
+                if (filteredStopCoords.length > 0) {
+                    filteredStations = bikeStationsData.filter(station => {
+                        // Check if station is near any of the filtered bus stops (within ~2km)
+                        return filteredStopCoords.some(stopLoc => {
+                            const dist = Math.sqrt(
+                                Math.pow((station.loc[0] - stopLoc[0]) * 111, 2) +
+                                Math.pow((station.loc[1] - stopLoc[1]) * 111, 2)
+                            );
+                            return dist < 2; // 2km radius
+                        });
+                    });
+                }
             }
 
             // Station Filter Logic
@@ -1397,18 +1419,20 @@
             // 2. Update Map
             renderMap(filteredStops, filteredStations);
 
-            // 3. Update Metrics
-            const avgScore = filteredStops.length > 0 
-                ? (filteredStops.reduce((sum, s) => sum + s.integration_score, 0) / filteredStops.length) 
+            // 3. Update Metrics (if elements exist)
+            const avgScore = filteredStops.length > 0
+                ? (filteredStops.reduce((sum, s) => sum + s.integration_score, 0) / filteredStops.length)
                 : 0;
-            const normScore = Math.min(avgScore * 100, 10).toFixed(1);
-            document.getElementById('integration-score').textContent = normScore + '/10';
-            
-            if(filteredStops.length > 0) {
+
+            // Only update if element exists (removed from current design)
+            if(document.getElementById('integration-score')) {
+                const normScore = Math.min(avgScore * 100, 10).toFixed(1);
+                document.getElementById('integration-score').textContent = normScore + '/10';
+            }
+
+            if(filteredStops.length > 0 && document.getElementById('integration-context')) {
                  const topStop = filteredStops.reduce((max, stop) => stop.integration_score > max.integration_score ? stop : max);
                  document.getElementById('integration-context').innerHTML = `<span style="color:var(--terminal-green)">Top: ${topStop.name}</span>`;
-            } else {
-                 document.getElementById('integration-context').innerHTML = "No stops in selection";
             }
 
             // 4. Update Status Text
@@ -1480,36 +1504,6 @@
             }
         });
 
-        // NOTEBOOK CHART 4: Directionality (Polar Area Chart)
-        new Chart(document.getElementById('notebookChart4'), {
-            type: 'polarArea',
-            data: {
-                labels: directionalityData.labels,
-                datasets: [{
-                    data: directionalityData.values,
-                    backgroundColor: [
-                        'rgba(43, 76, 255, 0.6)',
-                        'rgba(0, 184, 132, 0.6)',
-                        'rgba(255, 77, 0, 0.6)',
-                        'rgba(255, 43, 140, 0.6)',
-                        'rgba(43, 76, 255, 0.4)',
-                        'rgba(0, 184, 132, 0.4)',
-                        'rgba(255, 77, 0, 0.4)',
-                        'rgba(255, 43, 140, 0.4)'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    r: {
-                        ticks: { backdropColor: 'transparent' }
-                    }
-                }
-            }
-        });
 
         // NOTEBOOK CHART 5: Demographics (Stacked Bar Chart)
         new Chart(document.getElementById('notebookChart5'), {
@@ -1536,29 +1530,6 @@
             }
         });
 
-        // NOTEBOOK CHART 6: Duration Distribution (Histogram/Bar)
-        new Chart(document.getElementById('notebookChart6'), {
-            type: 'bar',
-            data: {
-                labels: durationDistData.bins.map(b => b.toFixed(0)),
-                datasets: [{
-                    label: 'Trip Count',
-                    data: durationDistData.counts,
-                    backgroundColor: '#2B4CFF',
-                    borderColor: '#000',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { title: { display: true, text: 'Duration (minutes)' }, ticks: { maxRotation: 45 } },
-                    y: { title: { display: true, text: 'Frequency' } }
-                }
-            }
-        });
 
         // NOTEBOOK CHART 7: Correlation Scatter
         new Chart(document.getElementById('notebookChart7'), {
@@ -1770,7 +1741,11 @@
         new Chart(document.getElementById('topIndexChart'), {
             type: 'bar',
             data: {
-                labels: topIndexStops.map(s => s.name.replace(' AT ', ' @ ').substring(0, 15) + '...'),
+                labels: topIndexStops.map(s => {
+                    // Shorten long names for display but keep full name for tooltip
+                    const shortName = s.name.replace(' AT ', ' @ ').substring(0, 20);
+                    return shortName.length < s.name.length ? shortName + '...' : shortName;
+                }),
                 datasets: [{
                     label: 'Integration Score',
                     data: topIndexStops.map(s => s.integration_score),
@@ -1783,10 +1758,32 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 indexAxis: 'y',
-                plugins: { legend: { display: false } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                // Show full stop name in tooltip
+                                return topIndexStops[context[0].dataIndex].name;
+                            },
+                            label: function(context) {
+                                return 'Integration Index: ' + context.parsed.x.toFixed(2);
+                            }
+                        }
+                    }
+                },
                 scales: {
-                    x: { title: { display: true, text: 'Integration Index' }, grid: { display: true, color: '#eee' } },
-                    y: { ticks: { font: { size: 9 } } }
+                    x: {
+                        title: { display: true, text: 'Integration Index', font: { size: 11 } },
+                        grid: { display: true, color: '#eee' }
+                    },
+                    y: {
+                        ticks: {
+                            font: { size: 10, weight: 'bold' },
+                            color: '#000',
+                            padding: 5
+                        }
+                    }
                 }
             }
         });
