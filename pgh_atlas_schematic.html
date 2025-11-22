@@ -394,7 +394,11 @@
     <!-- NAV -->
     <nav>
         <div class="brand">
-            PGH_TRANSIT_ATLAS <span>v2.4</span>
+            <div>PGH_TRANSIT_ATLAS</div>
+            <div style="font-size: 0.75rem; margin-top: 5px; font-weight: normal; letter-spacing: 0.5px; line-height: 1.4;">
+                by rutomo@andrew.cmu.edu<br>
+                <span style="font-size: 0.7rem;">(Rizaldy Utomo - Public Policy, Analytics, AI Management @ CMU)</span>
+            </div>
         </div>
         <div class="mode-switch">
             <button class="retro-btn active" onclick="toggleMode('viz')">1. INTERACTIVE VIZ</button>
@@ -562,7 +566,17 @@
                 <div class="viz-section">
                     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                         <div class="panel chart-panel">
-                            <div class="panel-header"><span>FIG 6. TOP 10 STATIONS (Member vs Casual)</span></div>
+                            <div class="panel-header">
+                                <span>FIG 6. TOP 10 STATIONS (Member vs Casual)</span>
+                                <div style="float: right; margin-left: 20px;">
+                                    <label style="font-size: 0.75rem; margin-right: 5px;">Sort by:</label>
+                                    <select id="demo-sort" style="font-family: 'JetBrains Mono'; font-size: 0.7rem; padding: 2px 5px; background: #fff; border: 1px solid #000;">
+                                        <option value="total">Total Trips</option>
+                                        <option value="casual">Casual %</option>
+                                        <option value="member">Member %</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div style="padding:20px; min-height:400px;">
                                 <canvas id="demographicsChart"></canvas>
                             </div>
@@ -639,15 +653,16 @@
                         </h2>
 
                         <div class="policy-box">
-                            <div class="policy-title">1. Fill the Homewood Gap</div>
+                            <div class="policy-title">1. Fill the Homewood & Squirrel Hill Gaps</div>
                             <div class="policy-desc">
-                                <strong>Issue:</strong> 4 high-volume bus stops in Homewood (>800 boardings/day) have NO bike stations within 800m walking distance.<br>
-                                <strong>Action:</strong> Deploy 2 new POGOH stations at Homewood-Brushton Busway and N. Homewood Ave to serve 12K+ daily bus riders.
+                                <strong>Issue:</strong> Two high-traffic corridors lack adequate POGOH coverage:<br>
+                                • <strong>Homewood:</strong> 4 high-volume bus stops (>800 boardings/day) have NO bike stations within 800m walking distance<br>
+                                • <strong>Squirrel Hill:</strong> Despite significant bus traffic along Forbes Ave and Murray Ave, POGOH stations are sparse, forcing residents to walk 600-1000m to access bikes<br>
+                                <strong>Action:</strong> Deploy 2 new stations in Homewood (Homewood-Brushton Busway, N. Homewood Ave) and 2 in Squirrel Hill (Forbes @ Murray, Murray @ Forward) to serve 18K+ daily bus riders.
                             </div>
                             <div class="policy-actions">
                                 <span class="action-tag">EQUITY</span>
                                 <span class="action-tag">FIRST/LAST MILE</span>
-                                <span class="action-tag">Q1 2026</span>
                             </div>
                         </div>
 
@@ -660,7 +675,6 @@
                             <div class="policy-actions">
                                 <span class="action-tag">SEASONAL</span>
                                 <span class="action-tag">RETENTION</span>
-                                <span class="action-tag">Q4 2025</span>
                             </div>
                         </div>
 
@@ -673,7 +687,6 @@
                             <div class="policy-actions">
                                 <span class="action-tag">HIGH-ROI</span>
                                 <span class="action-tag">TOURISM</span>
-                                <span class="action-tag">2026 EXPANSION</span>
                             </div>
                         </div>
                     </div>
@@ -862,9 +875,14 @@
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="data.js"></script>
 
     <script>
+        // Register Chart.js datalabels plugin globally but disable by default
+        Chart.register(ChartDataLabels);
+        Chart.defaults.plugins.datalabels.display = false;
+
         // --- MODE SWITCHING ---
         function toggleMode(mode) {
             // Update Buttons
@@ -972,8 +990,12 @@
 
         // --- CHARTS ---
 
+        // Store temporal charts globally for filter updates
+        let pogohDailyChart = null;
+        let prtMonthlyChart = null;
+
         // 1A. POGOH Daily Chart (365 Days Real Data)
-        new Chart(document.getElementById('pogohDailyChart'), {
+        pogohDailyChart = new Chart(document.getElementById('pogohDailyChart'), {
             type: 'line',
             data: {
                 labels: dailyTimeseriesData.dates,
@@ -1023,7 +1045,7 @@
         });
 
         // 1B. PRT Monthly Chart (Full Historical Data)
-        new Chart(document.getElementById('prtMonthlyChart'), {
+        prtMonthlyChart = new Chart(document.getElementById('prtMonthlyChart'), {
             type: 'line',
             data: {
                 labels: monthlyTrendsData.all_prt_labels, // Full historical dates
@@ -1141,30 +1163,112 @@
         });
 
         // 4. Demographics Chart (Stacked Bar) - DASHBOARD
-        new Chart(document.getElementById('demographicsChart'), {
-            type: 'bar',
-            data: {
-                labels: demographicsData.stations,
-                datasets: demographicsData.rider_types.map((type, idx) => ({
-                    label: type,
-                    data: demographicsData.data[type],
-                    backgroundColor: idx === 0 ? '#2B4CFF' : '#FF4D00',
-                    borderColor: '#000',
-                    borderWidth: 1
-                }))
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                plugins: {
-                    legend: { position: 'top', labels: { font: { family: 'JetBrains Mono', size: 9 } } }
-                },
-                scales: {
-                    x: { stacked: true, grid: { display: false } },
-                    y: { stacked: true, ticks: { font: { size: 8 } } }
-                }
+        // Store chart globally for updates
+        let demographicsChart = null;
+
+        function renderDemographicsChart(sortBy = 'total') {
+            // Prepare data for sorting
+            const stationData = demographicsData.stations.map((station, idx) => {
+                const member = demographicsData.data[demographicsData.rider_types[0]][idx];
+                const casual = demographicsData.data[demographicsData.rider_types[1]][idx];
+                const total = member + casual;
+                return {
+                    station: station,
+                    member: member,
+                    casual: casual,
+                    total: total,
+                    casualPct: total > 0 ? (casual / total) * 100 : 0,
+                    memberPct: total > 0 ? (member / total) * 100 : 0
+                };
+            });
+
+            // Sort based on selected option
+            if (sortBy === 'total') {
+                stationData.sort((a, b) => b.total - a.total);
+            } else if (sortBy === 'casual') {
+                stationData.sort((a, b) => b.casualPct - a.casualPct);
+            } else if (sortBy === 'member') {
+                stationData.sort((a, b) => b.memberPct - a.memberPct);
             }
+
+            // Take top 10
+            const top10 = stationData.slice(0, 10);
+
+            const chartData = {
+                labels: top10.map(d => d.station),
+                datasets: [
+                    {
+                        label: demographicsData.rider_types[0], // Member
+                        data: top10.map(d => d.member),
+                        backgroundColor: '#2B4CFF',
+                        borderColor: '#000',
+                        borderWidth: 1
+                    },
+                    {
+                        label: demographicsData.rider_types[1], // Casual
+                        data: top10.map(d => d.casual),
+                        backgroundColor: '#FF4D00',
+                        borderColor: '#000',
+                        borderWidth: 1
+                    }
+                ]
+            };
+
+            if (demographicsChart) {
+                demographicsChart.data = chartData;
+                demographicsChart.options.plugins.datalabels = {
+                    display: true,
+                    formatter: (value, context) => {
+                        const dataIndex = context.dataIndex;
+                        const casualPct = top10[dataIndex].casualPct;
+                        return context.datasetIndex === 1 ? casualPct.toFixed(1) + '% casual' : '';
+                    },
+                    anchor: 'end',
+                    align: 'right',
+                    color: '#333',
+                    font: { size: 9, weight: 'bold', family: 'JetBrains Mono' },
+                    offset: 4
+                };
+                demographicsChart.update();
+            } else {
+                demographicsChart = new Chart(document.getElementById('demographicsChart'), {
+                    type: 'bar',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        plugins: {
+                            legend: { position: 'top', labels: { font: { family: 'JetBrains Mono', size: 9 } } },
+                            datalabels: {
+                                display: true,
+                                formatter: (value, context) => {
+                                    const dataIndex = context.dataIndex;
+                                    const casualPct = top10[dataIndex].casualPct;
+                                    return context.datasetIndex === 1 ? casualPct.toFixed(1) + '% casual' : '';
+                                },
+                                anchor: 'end',
+                                align: 'right',
+                                color: '#333',
+                                font: { size: 9, weight: 'bold', family: 'JetBrains Mono' },
+                                offset: 4
+                            }
+                        },
+                        scales: {
+                            x: { stacked: true, grid: { display: false } },
+                            y: { stacked: true, ticks: { font: { size: 8 } } }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initial render
+        renderDemographicsChart('total');
+
+        // Add event listener for sort dropdown
+        document.getElementById('demo-sort').addEventListener('change', function() {
+            renderDemographicsChart(this.value);
         });
 
         // 5. Duration Distribution Chart (Histogram) - DASHBOARD
@@ -1445,8 +1549,35 @@
 
             if (stationFilter === 'top10-pogoh') filterStatusText += ' + 🏆 Top 10 POGOH';
             if (stationFilter === 'top10-prt') filterStatusText += ' + 🚌 Top 10 PRT';
-            
+
             document.getElementById('filter-status').textContent = filterStatusText;
+
+            // 5. Update Temporal Charts (FIG 1A - POGOH Daily with real daily data)
+            if (pogohDailyChart && corridorFilter === 'campus') {
+                // Show campus daily trips (365 days detail)
+                pogohDailyChart.data.labels = dailyTimeseriesData.dates;
+                pogohDailyChart.data.datasets[0].data = dailyTimeseriesData.pogoh_campus_trips;
+                pogohDailyChart.data.datasets[0].label = 'POGOH Campus Daily Trips';
+                pogohDailyChart.options.scales.y.title.text = 'Daily Trips (Campus)';
+                pogohDailyChart.update();
+            } else if (pogohDailyChart && (corridorFilter === 'downtown' || corridorFilter === 'strip' || corridorFilter === 'east-liberty')) {
+                // For downtown/other non-campus corridors, show city (non-campus) daily data
+                pogohDailyChart.data.labels = dailyTimeseriesData.dates;
+                pogohDailyChart.data.datasets[0].data = dailyTimeseriesData.pogoh_city_trips;
+                pogohDailyChart.data.datasets[0].label = 'POGOH City Daily Trips';
+                pogohDailyChart.options.scales.y.title.text = 'Daily Trips (Non-Campus)';
+                pogohDailyChart.update();
+            } else if (pogohDailyChart) {
+                // Show full daily timeseries for system-wide
+                pogohDailyChart.data.labels = dailyTimeseriesData.dates;
+                pogohDailyChart.data.datasets[0].data = dailyTimeseriesData.pogoh_trips;
+                pogohDailyChart.data.datasets[0].label = 'POGOH Daily Trips';
+                pogohDailyChart.options.scales.y.title.text = 'Daily Trips';
+                pogohDailyChart.update();
+            }
+
+            // Note: FIG 1B (PRT Monthly) remains system-wide as PRT data is aggregated at system level
+            // and historical trends are meaningful for comparing against POGOH system-wide patterns
 
             // Visual feedback
             const btn = this;

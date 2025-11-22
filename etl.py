@@ -414,7 +414,20 @@ print("  → Generating daily timeseries...")
 trips['date'] = trips['Start Date'].dt.date
 daily_pogoh = trips.groupby('date').size().reset_index(name='trips')
 daily_pogoh['date_str'] = pd.to_datetime(daily_pogoh['date']).dt.strftime('%Y-%m-%d')
-print(f"    ✓ Daily timeseries: {len(daily_pogoh)} days")
+
+# Also generate campus vs city daily splits
+daily_campus = trips[trips['is_campus']].groupby('date').size().reset_index(name='trips')
+daily_campus['date_str'] = pd.to_datetime(daily_campus['date']).dt.strftime('%Y-%m-%d')
+
+daily_city = trips[~trips['is_campus']].groupby('date').size().reset_index(name='trips')
+daily_city['date_str'] = pd.to_datetime(daily_city['date']).dt.strftime('%Y-%m-%d')
+
+# Merge to ensure all dates are present (fill missing with 0)
+all_dates = pd.DataFrame({'date_str': daily_pogoh['date_str']})
+daily_campus_full = all_dates.merge(daily_campus[['date_str', 'trips']], on='date_str', how='left').fillna(0)
+daily_city_full = all_dates.merge(daily_city[['date_str', 'trips']], on='date_str', how='left').fillna(0)
+
+print(f"    ✓ Daily timeseries: {len(daily_pogoh)} days (System + Campus/City splits)")
 
 # CHART 10: Top 10 PRT Stops Near POGOH Stations
 print("  → Finding top PRT stops near POGOH stations...")
@@ -535,10 +548,12 @@ seasonal_heatmap_export = {
     'data': seasonal_pivot.values.tolist()
 }
 
-# Daily Timeseries (Real Daily Data)
+# Daily Timeseries (Real Daily Data with Campus/City splits)
 daily_timeseries = {
     'dates': daily_pogoh['date_str'].tolist(),
-    'pogoh_trips': daily_pogoh['trips'].tolist()
+    'pogoh_trips': daily_pogoh['trips'].tolist(),
+    'pogoh_campus_trips': daily_campus_full['trips'].astype(int).tolist(),
+    'pogoh_city_trips': daily_city_full['trips'].astype(int).tolist()
 }
 
 # Top 10 PRT Stops Near POGOH
