@@ -1457,14 +1457,30 @@
 
             // Render Bus Stops
             filteredBusStops.forEach(stop => {
-            L.circleMarker(stop.loc, {
-                radius: Math.sqrt(stop.vol)/2,
-                fillColor: '#2B4CFF',
-                color: '#2B4CFF',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.4
-                }).addTo(busLayer).bindPopup(`<strong>BUS STOP</strong><br>${stop.name}<br>Vol: ${stop.vol}<br>Hood: ${stop.hood}`);
+                // Check integration (within 400m of ANY bike station)
+                const isIntegrated = bikeStationsData.some(station => {
+                    const dist = Math.sqrt(
+                        Math.pow((station.loc[0] - stop.loc[0]) * 111, 2) +
+                        Math.pow((station.loc[1] - stop.loc[1]) * 111, 2)
+                    );
+                    return dist < 0.4; // 400m threshold
+                });
+                
+                const color = isIntegrated ? '#FF2B8C' : '#999999'; // Red if integrated, Gray if not
+                const fillOpacity = isIntegrated ? 0.7 : 0.4;
+                const radius = isIntegrated ? Math.max(Math.sqrt(stop.vol)/2, 3) : Math.sqrt(stop.vol)/2;
+
+                L.circleMarker(stop.loc, {
+                    radius: radius,
+                    fillColor: color,
+                    color: color,
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: fillOpacity
+                }).addTo(busLayer).bindPopup(
+                    `<strong>BUS STOP</strong><br>${stop.name}<br>Vol: ${stop.vol}<br>` +
+                    `Status: <strong>${isIntegrated ? 'INTEGRATED (Walkable)' : 'NOT INTEGRATED'}</strong>`
+                );
             });
 
             // Render Bike Stations
