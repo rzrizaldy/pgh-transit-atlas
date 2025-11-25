@@ -1199,6 +1199,41 @@
                     </div>
                 </div>
 
+                
+                <!-- CELL 3E: CONNECTIVITY GAPS (NEW) -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>3E. Quantifying the Connectivity Gap</h3>
+                        <p>While the map shows <em>where</em> the gaps are, this analysis quantifies the magnitude of the disconnection. We analyze the distance from every bus stop to its nearest bikeshare station.</p>
+                    </div>
+                    <div class="nb-output" style="text-align: center;">
+                        <img src="static_viz/fig9_connectivity_gap.png" style="max-width: 100%; height: auto; border: 1px solid #ccc; margin-bottom: 20px;">
+                        <div style="text-align: left; padding: 10px; background: #f8f9fa; border-left: 4px solid #FF2B8C;">
+                            <strong>Connectivity Insight:</strong> The histogram reveals a "Long Tail" of disconnection. Most bus stops are >1km away from bikeshare, making multimodal transfer impractical. Scaling to 20% integration would require doubling current station density.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CELL 3F: REGIONAL CONNECTIVITY (NEW) -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>3F. Regional Connectivity Breakdown</h3>
+                        <p>We break down the "Last Mile Gap" by corridor to see how connectivity varies across the city's key activity centers.</p>
+                    </div>
+                    <div class="nb-output" style="text-align: center;">
+                        <img src="static_viz/fig10_regional_connectivity.png" style="max-width: 100%; height: auto; border: 1px solid #ccc; margin-bottom: 20px;">
+                        <div style="text-align: left; padding: 10px; background: #f8f9fa; border-left: 4px solid #2B4CFF;">
+                            <strong>Regional Insight:</strong>
+                            <ul>
+                                <li><strong>Campus:</strong> Highest integration due to dense station network.</li>
+                                <li><strong>Downtown:</strong> surprisingly low connectivity; stations clustered in Golden Triangle.</li>
+                                <li><strong>Strip District:</strong> Linear disconnection along the riverfront corridor.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
                 <!-- CELL 4: TEMPORAL ANALYSIS -->
                 <div class="nb-cell">
                     <div class="nb-md">
