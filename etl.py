@@ -467,7 +467,7 @@ print("\n[STEP 6] EXPORTING DATA TO JSON...")
 
 # Bus Stops GeoJSON
 bus_stops_export = []
-for _, stop in bus_stops_clean.nlargest(100, 'bus_boardings').iterrows():  # Top 100 stops
+for _, stop in bus_stops_clean.iterrows():  # Export ALL stops
     bus_stops_export.append({
         'loc': [stop['latitude'], stop['longitude']],
         'name': stop['stop_name'],
