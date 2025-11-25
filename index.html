@@ -1138,6 +1138,8 @@
                         <h3>3C. Bus Stop Integration (First-Mile/Last-Mile Connectivity)</h3>
                         <p><strong>Research Question:</strong> How well integrated is bikeshare with public transit? We measure this using the <strong>400m walkability threshold</strong> — a bus stop is "integrated" if within 400m walking distance of any bike station.</p>
                         <p><strong>Methodology:</strong> Calculate Haversine distance between each of <strong>7,075 PRT bus stops</strong> (full system) and all 60 bike stations. Flag stops within 400m (roughly 5-minute walk).</p>
+                        <br>
+                        <p><strong>Visualization:</strong> The interactive map (Page 1) shows <span style="color:#FF2B8C; font-weight:bold;">● Red (Integrated)</span> vs <span style="color:#999999; font-weight:bold;">● Gray (Not Integrated)</span> stops.</p>
                     </div>
                     <div class="nb-input">
                         <span class="comment"># 3C. BUS STOP INTEGRATION ANALYSIS (System-Wide)</span><br>
@@ -1159,10 +1161,41 @@
                         • <strong>Total bus stops:</strong> 7,075<br>
                         • <strong>Integrated stops (within 400m):</strong> 817 stops<br>
                         • <strong>Integration rate:</strong> <span style="font-weight: 600; background: #e8f0fe; padding: 2px 6px;">11.5%</span><br><br>
-                        <strong>System Insight:</strong> While only 11.5% of the total bus network is within walking distance of POGOH, these stops account for a disproportionate share of transit volume. This highlights the strategic placement of current bike stations near high-frequency transit corridors.<br><br>
-                        <strong>Geographic Pattern:</strong> Integrated stops (Red dots) cluster heavily in the Campus Corridor and East Liberty. The vast majority of the system (Gray dots) remains disconnected from the bikeshare network, illustrating the potential for "Last Mile" expansion into residential neighborhoods.<br><br>
-                        <strong>Policy Implication:</strong> To function as true multimodal system, bikeshare network needs expansion to Downtown, Strip District, and South Side — areas with high bus ridership but poor bike integration.<br><br>
-                        <strong>Visualization:</strong> See interactive map (Page 1) showing <span style="color:#FF2B8C; font-weight:bold;">● Red (Integrated)</span> vs <span style="color:#999999; font-weight:bold;">● Gray (Not Integrated)</span>.
+                        
+                        <strong>Detailed Insights:</strong><br>
+                        <ul style="margin-top:10px;">
+                            <li><strong>System Insight:</strong> While only 11.5% of the total bus network is within walking distance of POGOH, these stops account for a disproportionate share of transit volume. This highlights the strategic placement of current bike stations near high-frequency transit corridors.</li>
+                            <li><strong>Geographic Pattern:</strong> Integrated stops (Red dots) cluster heavily in the Campus Corridor and East Liberty. The vast majority of the system (Gray dots) remains disconnected from the bikeshare network, illustrating the potential for "Last Mile" expansion into residential neighborhoods.</li>
+                            <li><strong>Regional Disparities:</strong>
+                                <ul>
+                                    <li><strong>Campus:</strong> Highest integration. Dense network means most stops are reachable.</li>
+                                    <li><strong>Downtown:</strong> surprisingly low connectivity relative to bus volume. Stations clustered in Golden Triangle, leaving periphery disconnected.</li>
+                                    <li><strong>Strip District:</strong> Linear disconnection. Long, thin geography means stops on Smallman/Liberty often miss Penn Ave stations.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <br>
+                        <strong>Policy Implication:</strong> To function as true multimodal system, bikeshare network needs expansion to Downtown, Strip District, and South Side — areas with high bus ridership but poor bike integration.
+                    </div>
+                </div>
+
+                <!-- CELL 3D: K-MEANS ELABORATION (NEW) -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>3D. Trip Archetype Methodology (K-Means Clustering)</h3>
+                        <p>To move beyond simple volume counts, we used <strong>Unsupervised Learning (K-Means)</strong> to identify distinct rider behaviors. We selected 3 key features that define a trip's "purpose":</p>
+                        <ul>
+                            <li><strong>Duration (Dwell Time):</strong> Short (<10 min) = transport; Long (>60 min) = leisure.</li>
+                            <li><strong>Displacement (Distance):</strong> High = commuting; Low (loops) = leisure.</li>
+                            <li><strong>Hour of Day (Temporal):</strong> Morning/Evening peaks = commuting; Mid-day = errands.</li>
+                        </ul>
+                        <p><strong>Rationale for K=4:</strong> Through Elbow Method analysis, 4 clusters provided the most distinct behavioral separation:</p>
+                        <ul>
+                            <li><strong>Commuter:</strong> Peak hours, medium distance, point-to-point.</li>
+                            <li><strong>Last-Mile:</strong> Short duration, short distance, connects to transit hubs.</li>
+                            <li><strong>Errand:</strong> Mid-day, medium duration, non-peak hours.</li>
+                            <li><strong>Leisure:</strong> Long duration, low displacement (loops), weekends.</li>
+                        </ul>
                     </div>
                 </div>
 
