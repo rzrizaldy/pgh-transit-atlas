@@ -833,3 +833,54 @@ for arch in archetypes_export:
 print("\n" + "=" * 80)
 print("JSON files ready for HTML integration!")
 print("=" * 80 + "\n")
+
+# ============================================================================
+# 10. BUILD DATA.JS
+# ============================================================================
+
+print("\n" + "=" * 80)
+print("BUILDING DATA.JS FOR INTERACTIVE DASHBOARD")
+print("=" * 80)
+
+# Read all JSON files from processed_data directory (re-reading ensures validity)
+# We use the variables we just exported if available, but reading is safer for a robust pipeline step
+
+try:
+    with open(output_dir / 'bus_stops_geo.json', 'r') as f: bus_stops = json.load(f)
+    with open(output_dir / 'bike_stations_geo.json', 'r') as f: bike_stations = json.load(f)
+    with open(output_dir / 'monthly_trends.json', 'r') as f: monthly_trends = json.load(f)
+    with open(output_dir / 'archetypes.json', 'r') as f: archetypes = json.load(f)
+    with open(output_dir / 'directionality.json', 'r') as f: directionality = json.load(f)
+    with open(output_dir / 'demographics.json', 'r') as f: demographics = json.load(f)
+    with open(output_dir / 'duration_distribution.json', 'r') as f: duration_dist = json.load(f)
+    with open(output_dir / 'correlation.json', 'r') as f: correlation = json.load(f)
+    with open(output_dir / 'heatmap.json', 'r') as f: heatmap = json.load(f)
+    with open(output_dir / 'seasonal_heatmap.json', 'r') as f: seasonal_heatmap = json.load(f)
+    with open(output_dir / 'daily_timeseries.json', 'r') as f: daily_timeseries = json.load(f)
+    with open(output_dir / 'top_prt_pogoh.json', 'r') as f: top_prt_pogoh = json.load(f)
+    with open(output_dir / 'station_archetypes.json', 'r') as f: station_archetypes = json.load(f)
+
+    # Write data.js
+    with open('data.js', 'w') as f:
+        f.write('// PITTSBURGH TRANSIT ATLAS - ENHANCED DATA MODULE\n\n')
+        f.write(f'const busStopsData = {json.dumps(bus_stops, indent=2)};\n\n')
+        f.write(f'const bikeStationsData = {json.dumps(bike_stations, indent=2)};\n\n')
+        f.write(f'const monthlyTrendsData = {json.dumps(monthly_trends, indent=2)};\n\n')
+        f.write(f'const archetypesData = {json.dumps(archetypes, indent=2)};\n\n')
+        f.write(f'const directionalityData = {json.dumps(directionality, indent=2)};\n\n')
+        f.write(f'const demographicsData = {json.dumps(demographics, indent=2)};\n\n')
+        f.write(f'const durationDistData = {json.dumps(duration_dist, indent=2)};\n\n')
+        f.write(f'const correlationData = {json.dumps(correlation, indent=2)};\n\n')
+        f.write(f'const heatmapData = {json.dumps(heatmap, indent=2)};\n\n')
+        f.write(f'const seasonalHeatmapData = {json.dumps(seasonal_heatmap, indent=2)};\n\n')
+        f.write(f'const dailyTimeseriesData = {json.dumps(daily_timeseries, indent=2)};\n\n')
+        f.write(f'const topPrtPogohData = {json.dumps(top_prt_pogoh, indent=2)};\n\n')
+        f.write(f'const stationArchetypesData = {json.dumps(station_archetypes, indent=2)};\n')
+
+    print("✓ data.js generated successfully!")
+    print(f"  • File size: {len(open('data.js').read()) / 1024:.1f} KB")
+
+except Exception as e:
+    print(f"❌ Error building data.js: {e}")
+
+print("\nPipeline fully completed.")
