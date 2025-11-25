@@ -1445,7 +1445,7 @@
         // Custom Square Icon for POGOH
         const squareIcon = L.divIcon({
             className: 'custom-icon',
-            html: `<div style="width:14px; height:14px; background:#FF2B8C; border:2px solid black;"></div>`,
+            html: `<div style="width:14px; height:14px; background:#00B884; border:2px solid black;"></div>`,
             iconSize: [14, 14],
             iconAnchor: [7, 7]
         });
@@ -1467,8 +1467,10 @@
                 });
                 
                 const color = isIntegrated ? '#FF2B8C' : '#999999'; // Red if integrated, Gray if not
-                const fillOpacity = isIntegrated ? 0.7 : 0.4;
-                const radius = isIntegrated ? Math.max(Math.sqrt(stop.vol)/2, 3) : Math.sqrt(stop.vol)/2;
+                const fillOpacity = isIntegrated ? 0.8 : 0.4;
+                
+                // Uniform dot size for all stops
+                const radius = 4;
 
                 L.circleMarker(stop.loc, {
                     radius: radius,
@@ -1490,6 +1492,38 @@
              .bindPopup(`<strong>POGOH STATION</strong><br>${st.name}`);
         });
         }
+
+        // --- MAP LEGEND ---
+        const legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'info legend');
+            div.style.background = 'white';
+            div.style.padding = '10px';
+            div.style.border = 'var(--border-heavy)';
+            div.style.boxShadow = 'var(--shadow-shallow)';
+            div.style.fontFamily = "'JetBrains Mono', monospace";
+            div.style.fontSize = '0.8rem';
+
+            div.innerHTML = `
+                <div style="margin-bottom:8px; font-weight:bold; border-bottom:1px solid #ccc; padding-bottom:5px;">MAP KEY</div>
+                <div style="display:flex; align-items:center; margin-bottom:5px;">
+                    <span style="width:12px; height:12px; background:#00B884; border:2px solid black; margin-right:8px; display:inline-block;"></span>
+                    POGOH Station
+                </div>
+                <div style="display:flex; align-items:center; margin-bottom:5px;">
+                    <span style="width:12px; height:12px; background:#FF2B8C; border-radius:50%; margin-right:8px; display:inline-block;"></span>
+                    Bus Stop (Nearby POGOH)
+                </div>
+                <div style="display:flex; align-items:center;">
+                    <span style="width:12px; height:12px; background:#999999; border-radius:50%; margin-right:8px; display:inline-block;"></span>
+                    Bus Stop (Not Nearby)
+                </div>
+            `;
+            return div;
+        };
+
+        legend.addTo(map);
 
         // Initial Render
         renderMap(busStopsData, bikeStationsData);
