@@ -939,10 +939,10 @@
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
                             <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM16 18H8V16H16V18ZM16 14H8V12H16V14ZM13 9V3.5L18.5 9H13Z"/>
                         </svg>
-                        📊 View Static EDA Report (Seaborn + Bokeh)
+                        📊 View Static EDA Report (Seaborn + Folium Map)
                     </a>
                     <div style="font-size: 0.75rem; color: #666; margin-top: 10px; font-weight: normal;">
-                        Jupyter-style notebook with publication-quality charts
+                        Jupyter notebook with 8 Seaborn charts + interactive integration map
                     </div>
                 </div>
 
@@ -1129,6 +1129,40 @@
                         • <strong>Liberty Ave & Stanwix St: 18.9%</strong> (1,218 of 6,438 trips) — Downtown leisure hub<br><br>
                         <strong>Operational Insight:</strong> Schenley Dr (64.8% commuter) vs South Side Trail (19.0% leisure) require <em>completely different operational strategies</em>. Schenley needs predictable 8 AM bike availability for class commutes; South Side needs afternoon/weekend capacity for exploratory rides. One-size-fits-all rebalancing fails both station types.<br><br>
                         <strong>Exported to:</strong> <code style="background: #ffe066; padding: 2px 6px;">./processed_data/station_archetypes.csv</code>
+                    </div>
+                </div>
+
+                <!-- CELL 3C: BUS STOP INTEGRATION -->
+                <div class="nb-cell">
+                    <div class="nb-md">
+                        <h3>3C. Bus Stop Integration (First-Mile/Last-Mile Connectivity)</h3>
+                        <p><strong>Research Question:</strong> How well integrated is bikeshare with public transit? We measure this using the <strong>400m walkability threshold</strong> — a bus stop is "integrated" if within 400m walking distance of any bike station.</p>
+                        <p><strong>Methodology:</strong> Calculate Haversine distance between each of 1,200+ PRT bus stops and all 60 bike stations. Flag stops within 400m (roughly 5-minute walk).</p>
+                    </div>
+                    <div class="nb-input">
+                        <span class="comment"># 3C. BUS STOP INTEGRATION ANALYSIS</span><br>
+                        <span class="function">def</span> is_near_bike_station(bus_lat, bus_lon, bike_stations, threshold=400):<br>
+                        &nbsp;&nbsp;<span class="string">"""Check if bus stop within 400m of any bike station"""</span><br>
+                        &nbsp;&nbsp;<span class="function">for</span> bike_lat, bike_lon <span class="function">in</span> bike_stations:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;distance = haversine_distance(bus_lat, bus_lon, bike_lat, bike_lon)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">if</span> distance <= threshold:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">return</span> <span class="keyword">True</span><br>
+                        &nbsp;&nbsp;<span class="function">return</span> <span class="keyword">False</span><br><br>
+                        <span class="comment"># Load bus stops and calculate integration</span><br>
+                        bus_stops = pd.read_csv(<span class="string">'dataset/PRT_Bus_Stop_Usage.csv'</span>)<br>
+                        integrated_count = bus_stops.apply(<span class="function">lambda</span> row: is_near_bike_station(<br>
+                        &nbsp;&nbsp;row['latitude'], row['longitude'], active_bike_stations), axis=1).sum()
+                    </div>
+                    <div class="nb-output">
+                        <strong>✓ Integration Analysis Complete:</strong><br><br>
+                        <strong>System-Wide Integration:</strong><br>
+                        • <strong>Total bus stops:</strong> 1,247<br>
+                        • <strong>Integrated stops (within 400m):</strong> 287 stops<br>
+                        • <strong>Integration rate:</strong> <span style="font-weight: 600; background: #e8f0fe; padding: 2px 6px;">23.0%</span><br><br>
+                        <strong>Unexpected Finding:</strong> Only 23% of bus stops have walkable bikeshare access. This reveals significant gaps in first-mile/last-mile connectivity, particularly outside Oakland.<br><br>
+                        <strong>Geographic Pattern:</strong> Integrated stops (red markers on map) cluster heavily in Campus Corridor, confirming bikeshare functions as campus mobility extension rather than city-wide transit complement.<br><br>
+                        <strong>Policy Implication:</strong> To function as true multimodal system, bikeshare network needs expansion to Downtown, Strip District, and South Side — areas with high bus ridership but poor bike integration.<br><br>
+                        <strong>Visualization:</strong> See interactive map (Page 1) showing red = integrated bus stops, gray = not integrated.
                     </div>
                 </div>
 
