@@ -47,4 +47,4 @@ This repo contains the full ETL pipeline and visualization codebase.
 
 ---
 
-*Note: This project was developed as a final submission for Exploratory Data Analysis (EDA) and Visualization with Python ()90-800) at Heinz College, CMU.*
+*Note: This project was developed as a final submission for (90-800) Exploratory Data Analysis (EDA) and Visualization with Python at Heinz College, CMU.*
