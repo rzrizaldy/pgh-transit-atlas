@@ -293,7 +293,173 @@
         }
 
         /* Map Styling */
-        #map { height: 100%; width: 100%; background: #ddd; }
+        #map { flex: 1; width: 100%; min-height: 540px; background: #E8E6DF; }
+
+        .map-count {
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: #BDBDBD;
+        }
+        .map-count strong { color: white; }
+
+        .leaflet-container {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Brutalist Leaflet controls */
+        .leaflet-bar,
+        .leaflet-control-layers {
+            border: 2px solid var(--ink) !important;
+            border-radius: 0 !important;
+            box-shadow: var(--shadow-shallow) !important;
+        }
+        .leaflet-bar a,
+        .leaflet-bar a:hover {
+            border-radius: 0 !important;
+            color: var(--ink);
+            font-weight: 800;
+            width: 32px;
+            height: 32px;
+            line-height: 30px;
+        }
+        .leaflet-bar a:hover { background: var(--paper); }
+        .leaflet-bar a:first-child { border-bottom: 2px solid var(--ink); }
+
+        .leaflet-control-layers-expanded {
+            padding: 10px 12px;
+            font-size: 0.75rem;
+            background: white;
+        }
+        .leaflet-control-layers-base label,
+        .leaflet-control-layers-overlays label {
+            margin: 3px 0;
+            cursor: pointer;
+        }
+        .leaflet-control-layers-separator {
+            border-top: 1px dashed #999;
+            margin: 8px -12px;
+        }
+        .leaflet-control-layers-toggle {
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 0;
+        }
+
+        .leaflet-control-scale-line {
+            border: 2px solid var(--ink);
+            border-top: none;
+            background: rgba(255, 255, 255, 0.85);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+        }
+        .leaflet-control-attribution {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            background: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* Popups */
+        .leaflet-popup-content-wrapper {
+            border: 2px solid var(--ink);
+            border-radius: 0;
+            box-shadow: var(--shadow-shallow);
+            padding: 0;
+        }
+        .leaflet-popup-content {
+            margin: 0;
+            min-width: 200px;
+            font-size: 0.78rem;
+            line-height: 1.45;
+        }
+        .leaflet-popup-tip {
+            border: 2px solid var(--ink);
+            box-shadow: none;
+        }
+        .leaflet-container a.leaflet-popup-close-button {
+            color: white;
+            top: 4px;
+            right: 4px;
+        }
+        .map-popup-head {
+            background: var(--ink);
+            color: white;
+            padding: 6px 28px 6px 10px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+        .map-popup-body { padding: 8px 10px 10px; }
+        .map-popup-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+        .map-popup-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px dashed #ccc;
+            padding-top: 4px;
+            margin-top: 4px;
+        }
+        .map-popup-badge {
+            display: inline-block;
+            padding: 1px 6px;
+            font-weight: 800;
+            font-size: 0.68rem;
+            color: white;
+        }
+
+        /* Legend */
+        .map-legend {
+            background: white;
+            border: 2px solid var(--ink);
+            box-shadow: var(--shadow-shallow);
+            padding: 10px 12px;
+            font-size: 0.75rem;
+            min-width: 210px;
+        }
+        .map-legend-title {
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+        .map-legend-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .map-legend-row:last-child { margin-bottom: 0; }
+        .map-legend-row .count {
+            margin-left: auto;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+        .swatch-square {
+            width: 12px; height: 12px;
+            background: var(--terminal-green);
+            border: 2px solid var(--ink);
+            flex-shrink: 0;
+        }
+        .swatch-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .pogoh-marker div {
+            width: 12px; height: 12px;
+            background: var(--terminal-green);
+            border: 2px solid var(--ink);
+            box-shadow: 2px 2px 0 var(--ink);
+            transition: transform 0.12s ease;
+        }
+        .pogoh-marker:hover div { transform: scale(1.35); }
         
         /* Metric Cards in Sidebar */
         .stat-card {
@@ -618,17 +784,9 @@
                         <div class="panel" id="map-wrapper">
                             <div class="panel-header">
                                 <span>// SYSTEM_BLUEPRINT_MAP</span>
-                                <div class="panel-controls"><div class="control-dot"></div><div class="control-dot"></div></div>
+                                <span class="map-count" id="map-count"></span>
                             </div>
                             <div id="map"></div>
-                            <div style="position: absolute; bottom: 20px; right: 20px; background: white; border: 2px solid black; padding: 10px; z-index: 999; font-size: 0.8rem;">
-                                <div style="display:flex; align-items:center; gap:5px; margin-bottom:5px;">
-                                    <div style="width:12px; height:12px; background:var(--blueprint); border-radius:50%;"></div> PRT Stop (Size=Vol)
-                                </div>
-                                <div style="display:flex; align-items:center; gap:5px;">
-                                    <div style="width:12px; height:12px; background:var(--alert-pink); border:1px solid black;"></div> POGOH Station
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Key Metrics -->
@@ -1502,96 +1660,187 @@
         });
 
         // --- MAP INIT ---
-        const map = L.map('map').setView([40.445, -79.98], 13);
-        
-        // CartoDB Light (Greyscale) for Schematic Look
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap &copy; CARTO',
-            maxZoom: 19
-        }).addTo(map);
+        const map = L.map('map', { zoomControl: false, preferCanvas: true }).setView([40.445, -79.98], 13);
+        L.control.zoom({ position: 'topleft' }).addTo(map);
+        L.control.scale({ position: 'bottomleft', imperial: true, metric: true }).addTo(map);
+
+        // Keyless basemaps (Esri Canvas / Imagery + OSM fallback)
+        const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
+        const esriAttr = 'Tiles &copy; <a href="https://www.esri.com">Esri</a> &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors';
+        const esriLayer = (path, opts = {}) => L.tileLayer(`${ESRI}${path}/MapServer/tile/{z}/{y}/{x}`, {
+            attribution: esriAttr, maxZoom: 19, maxNativeZoom: 16, ...opts
+        });
+
+        const basemaps = {
+            'Schematic (Light)': L.layerGroup([
+                esriLayer('Canvas/World_Light_Gray_Base'),
+                esriLayer('Canvas/World_Light_Gray_Reference', { pane: 'shadowPane', opacity: 0.9 })
+            ]),
+            'Night (Dark)': L.layerGroup([
+                esriLayer('Canvas/World_Dark_Gray_Base'),
+                esriLayer('Canvas/World_Dark_Gray_Reference', { pane: 'shadowPane' })
+            ]),
+            'Satellite': esriLayer('World_Imagery', { maxNativeZoom: 19 }),
+            'Street (OSM)': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            })
+        };
+        basemaps['Schematic (Light)'].addTo(map);
+
+        // Label layers sit under markers but above base tiles
+        map.getPane('shadowPane').style.zIndex = 350;
+        map.getPane('shadowPane').style.pointerEvents = 'none';
+
+        // If Esri tiles fail repeatedly, fall back to OSM so the map is never blank
+        let tileErrors = 0;
+        basemaps['Schematic (Light)'].eachLayer(l => l.on('tileerror', () => {
+            if (++tileErrors === 8 && map.hasLayer(basemaps['Schematic (Light)'])) {
+                map.removeLayer(basemaps['Schematic (Light)']);
+                basemaps['Street (OSM)'].addTo(map);
+            }
+        }));
 
         // Layer Groups for Filtering
         const busLayer = L.layerGroup().addTo(map);
         const bikeLayer = L.layerGroup().addTo(map);
 
+        L.control.layers(basemaps, {
+            'Bus stops': busLayer,
+            'POGOH stations': bikeLayer
+        }, { position: 'topright', collapsed: true }).addTo(map);
+
         // Custom Square Icon for POGOH
         const squareIcon = L.divIcon({
-            className: 'custom-icon',
-            html: `<div style="width:14px; height:14px; background:#00B884; border:2px solid black;"></div>`,
-            iconSize: [14, 14],
-            iconAnchor: [7, 7]
+            className: 'pogoh-marker',
+            html: '<div></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+            popupAnchor: [0, -8]
         });
 
-        // Function to render map markers
-        function renderMap(filteredBusStops, filteredBikeStations) {
-            busLayer.clearLayers();
-            bikeLayer.clearLayers();
+        const INTEGRATED_COLOR = '#FF2B8C';
+        const ISOLATED_COLOR = '#8A8A8A';
 
-            // Render Bus Stops
-            filteredBusStops.forEach(stop => {
-                // Check integration (within 400m of ANY bike station)
-                const isIntegrated = bikeStationsData.some(station => {
+        // Integration (within 400m of ANY bike station) — computed once per stop
+        const integrationCache = new Map();
+        function isStopIntegrated(stop) {
+            if (!integrationCache.has(stop)) {
+                integrationCache.set(stop, bikeStationsData.some(station => {
                     const dist = Math.sqrt(
                         Math.pow((station.loc[0] - stop.loc[0]) * 111, 2) +
                         Math.pow((station.loc[1] - stop.loc[1]) * 111, 2)
                     );
                     return dist < 0.4; // 400m threshold
-                });
-                
-                const color = isIntegrated ? '#FF2B8C' : '#999999'; // Red if integrated, Gray if not
-                const fillOpacity = isIntegrated ? 0.8 : 0.4;
-                
-                // Uniform dot size for all stops
-                const radius = 4;
+                }));
+            }
+            return integrationCache.get(stop);
+        }
 
-                L.circleMarker(stop.loc, {
-                    radius: radius,
+        const popupRow = (label, value) =>
+            `<div class="map-popup-row"><span>${label}</span><strong>${value}</strong></div>`;
+
+        const mapCounts = { stations: 0, integrated: 0, isolated: 0 };
+
+        // Function to render map markers
+        function renderMap(filteredBusStops, filteredBikeStations) {
+            busLayer.clearLayers();
+            bikeLayer.clearLayers();
+            mapCounts.stations = filteredBikeStations.length;
+            mapCounts.integrated = 0;
+            mapCounts.isolated = 0;
+
+            // Render Bus Stops (isolated first so integrated stops draw on top)
+            const sorted = [...filteredBusStops].sort((a, b) => isStopIntegrated(a) - isStopIntegrated(b));
+            sorted.forEach(stop => {
+                const isIntegrated = isStopIntegrated(stop);
+                isIntegrated ? mapCounts.integrated++ : mapCounts.isolated++;
+                const color = isIntegrated ? INTEGRATED_COLOR : ISOLATED_COLOR;
+
+                const marker = L.circleMarker(stop.loc, {
+                    radius: isIntegrated ? 4.5 : 3.5,
                     fillColor: color,
-                    color: color,
-                    weight: 1,
+                    color: isIntegrated ? '#1A1A1A' : color,
+                    weight: isIntegrated ? 1 : 0.5,
                     opacity: 1,
-                    fillOpacity: fillOpacity
+                    fillOpacity: isIntegrated ? 0.9 : 0.45
                 }).addTo(busLayer).bindPopup(
-                    `<strong>BUS STOP</strong><br>${stop.name}<br>Vol: ${stop.vol}<br>` +
-                    `Status: <strong>${isIntegrated ? 'INTEGRATED (Walkable)' : 'NOT INTEGRATED'}</strong>`
+                    `<div class="map-popup-head">PRT BUS STOP</div>
+                     <div class="map-popup-body">
+                        <div class="map-popup-name">${stop.name}</div>
+                        ${popupRow('Boardings', Number(stop.vol).toLocaleString())}
+                        ${stop.hood && stop.hood !== 'Unknown' ? popupRow('Neighborhood', stop.hood) : ''}
+                        <div class="map-popup-row"><span>Status</span>
+                            <span class="map-popup-badge" style="background:${color}">${isIntegrated ? 'INTEGRATED (Walkable)' : 'NOT INTEGRATED'}</span>
+                        </div>
+                     </div>`
                 );
+                marker.on('mouseover', () => marker.setStyle({ radius: 7, weight: 2, color: '#1A1A1A' }));
+                marker.on('mouseout', () => marker.setStyle({
+                    radius: isIntegrated ? 4.5 : 3.5,
+                    weight: isIntegrated ? 1 : 0.5,
+                    color: isIntegrated ? '#1A1A1A' : color
+                }));
             });
 
             // Render Bike Stations
             filteredBikeStations.forEach(st => {
-            L.marker(st.loc, {icon: squareIcon})
-                 .addTo(bikeLayer)
-             .bindPopup(`<strong>POGOH STATION</strong><br>${st.name}`);
-        });
+                L.marker(st.loc, { icon: squareIcon, riseOnHover: true, zIndexOffset: 1000 })
+                    .addTo(bikeLayer)
+                    .bindPopup(
+                        `<div class="map-popup-head" style="background:var(--terminal-green); color:var(--ink);">POGOH STATION</div>
+                         <div class="map-popup-body">
+                            <div class="map-popup-name">${st.name}</div>
+                            ${st.trips != null ? popupRow('Trips', Number(st.trips).toLocaleString()) : ''}
+                            ${st.docks != null ? popupRow('Docks', st.docks) : ''}
+                         </div>`
+                    );
+            });
+
+            updateMapCounts();
+        }
+
+        function updateMapCounts() {
+            const total = mapCounts.integrated + mapCounts.isolated;
+            const header = document.getElementById('map-count');
+            if (header) {
+                header.innerHTML = `<strong>${total.toLocaleString()}</strong> stops · <strong>${mapCounts.stations.toLocaleString()}</strong> stations`;
+            }
+            const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v.toLocaleString(); };
+            set('legend-stations', mapCounts.stations);
+            set('legend-integrated', mapCounts.integrated);
+            set('legend-isolated', mapCounts.isolated);
+        }
+
+        // Zoom the map to whatever is currently shown
+        function fitMapToLayers() {
+            const pts = [];
+            busLayer.eachLayer(l => pts.push(l.getLatLng()));
+            bikeLayer.eachLayer(l => pts.push(l.getLatLng()));
+            if (pts.length) map.flyToBounds(L.latLngBounds(pts), { padding: [40, 40], maxZoom: 16, duration: 0.6 });
         }
 
         // --- MAP LEGEND ---
         const legend = L.control({position: 'bottomright'});
 
         legend.onAdd = function (map) {
-            const div = L.DomUtil.create('div', 'info legend');
-            div.style.background = 'white';
-            div.style.padding = '10px';
-            div.style.border = 'var(--border-heavy)';
-            div.style.boxShadow = 'var(--shadow-shallow)';
-            div.style.fontFamily = "'JetBrains Mono', monospace";
-            div.style.fontSize = '0.8rem';
-
+            const div = L.DomUtil.create('div', 'map-legend');
             div.innerHTML = `
-                <div style="margin-bottom:8px; font-weight:bold; border-bottom:1px solid #ccc; padding-bottom:5px;">MAP KEY</div>
-                <div style="display:flex; align-items:center; margin-bottom:5px;">
-                    <span style="width:12px; height:12px; background:#00B884; border:2px solid black; margin-right:8px; display:inline-block;"></span>
-                    POGOH Station
+                <div class="map-legend-title">MAP KEY</div>
+                <div class="map-legend-row">
+                    <span class="swatch-square"></span> POGOH Station
+                    <span class="count" id="legend-stations">–</span>
                 </div>
-                <div style="display:flex; align-items:center; margin-bottom:5px;">
-                    <span style="width:12px; height:12px; background:#FF2B8C; border-radius:50%; margin-right:8px; display:inline-block;"></span>
-                    Bus Stop (Nearby POGOH)
+                <div class="map-legend-row">
+                    <span class="swatch-dot" style="background:${INTEGRATED_COLOR}; border:1px solid #1A1A1A;"></span> Bus Stop (≤400m to POGOH)
+                    <span class="count" id="legend-integrated">–</span>
                 </div>
-                <div style="display:flex; align-items:center;">
-                    <span style="width:12px; height:12px; background:#999999; border-radius:50%; margin-right:8px; display:inline-block;"></span>
-                    Bus Stop (Not Nearby)
+                <div class="map-legend-row">
+                    <span class="swatch-dot" style="background:${ISOLATED_COLOR}; opacity:0.6;"></span> Bus Stop (Not Nearby)
+                    <span class="count" id="legend-isolated">–</span>
                 </div>
             `;
+            L.DomEvent.disableClickPropagation(div);
             return div;
         };
 
@@ -2288,6 +2537,7 @@
 
             // 2. Update Map
             renderMap(filteredStops, filteredStations);
+            fitMapToLayers();
 
             // 3. Update Metrics (if elements exist)
             const avgScore = filteredStops.length > 0
